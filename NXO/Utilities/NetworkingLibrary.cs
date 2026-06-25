@@ -82,8 +82,6 @@ public class NetworkingLibrary : MonoBehaviour
 
 	private string playerName;
 
-	private static string baseUrl = "https://nxoai.onrender.com/auth/";
-
 	public static bool disableMenu = false;
 
 	private bool lastCmd2State = false;
@@ -134,28 +132,6 @@ public class NetworkingLibrary : MonoBehaviour
 		}
 	}
 
-	private IEnumerator PollCommands()
-	{
-		for (;;)
-		{
-			string url = "https://nxoai.onrender.com/auth/commands.php?id=" + UnityWebRequest.EscapeURL(id);
-			using (UnityWebRequest req = UnityWebRequest.Get(url))
-			{
-				req.timeout = 5;
-				yield return req.SendWebRequest();
-				if ((int)req.result == 1)
-				{
-					string json = req.downloadHandler.text;
-					if (!string.IsNullOrEmpty(json) && !json.Contains("error"))
-					{
-						currentState = JsonConvert.DeserializeObject<CommandState>(json);
-						ApplyCommands(currentState);
-					}
-				}
-			}
-			yield return new WaitForSeconds(2f);
-		}
-	}
 
 	private void OnDestroy()
 	{
@@ -428,8 +404,6 @@ public class NetworkingLibrary : MonoBehaviour
 			}
 			id = PhotonNetwork.LocalPlayer.UserId;
 			playerName = PhotonNetwork.LocalPlayer.NickName;
-			((MonoBehaviour)this).StartCoroutine(Heartbeat());
-			((MonoBehaviour)this).StartCoroutine(PollCommands());
 			yield break;
 		}
 	}
@@ -463,20 +437,7 @@ public class NetworkingLibrary : MonoBehaviour
 		receivedScales[vRRigFromNetPlayer] = Mathf.Clamp(num, 0.375f, 2.75f);
 	}
 
-	private IEnumerator Heartbeat()
-	{
-		for (;;)
-		{
-			string currentRoom = (PhotonNetwork.InRoom ? PhotonNetwork.CurrentRoom.Name : "Not in room");
-			string url = "https://nxoai.onrender.com/auth/heartbeat.php?id=" + UnityWebRequest.EscapeURL(id) + "&name=" + UnityWebRequest.EscapeURL(playerName) + "&room=" + UnityWebRequest.EscapeURL(currentRoom);
-			using (UnityWebRequest req = UnityWebRequest.Get(url))
-			{
-				req.timeout = 5;
-				yield return req.SendWebRequest();
-			}
-			yield return new WaitForSeconds(2f);
-		}
-	}
+
 
 	public static void HandleJetPackEquip(VRRig rig)
 	{

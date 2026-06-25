@@ -112,7 +112,7 @@ public class CustomBoards : MonoBehaviour
 			yield break;
 		}
 		Texture2D newTex;
-		using (UnityWebRequest req = UnityWebRequestTexture.GetTexture("https://github.com/NuggetGT/NXO-Resources/blob/main/NXO%20is%20sooooo%20awesome.png?raw=true"))
+		using (UnityWebRequest req = UnityWebRequestTexture.GetTexture("https://github.com/Wyvern-Softworks/NXO-Mod-Menu/blob/c242100a63b10d03b33e7a6f45ca9113f363520f/Resources/NXO%20is%20sooooo%20awesome.png?raw=true"))
 		{
 			yield return req.SendWebRequest();
 			if ((int)req.result != 1)
@@ -464,7 +464,7 @@ public class CustomBoards : MonoBehaviour
 	{
 		for (;;)
 		{
-			using (UnityWebRequest req = UnityWebRequest.Get("https://api.github.com/repos/NuggetGT/NXO-Resources/contents/NXO-Menu-Status.txt"))
+			using (UnityWebRequest req = UnityWebRequest.Get("https://api.github.com/repos/Wyvern-Softworks/NXO-Mod-Menu/contents/Resources/NXO-Menu-Status.txt"))
 			{
 				req.timeout = 5;
 				req.SetRequestHeader("Accept", "application/vnd.github.v3.raw");
