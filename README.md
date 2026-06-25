@@ -1,11 +1,9 @@
-# NXO-Mod-Menu-Continued (base: 5.2)
+# NXO-Mod-Menu
 **DISCORD: https://discord.gg/wyvern**
 
 A Gorilla Tag Mod Menu. 500+ mods. Overpowered. Fully Undetected. Fast. Reliable. Built to last. Free to skid.
 
-The "true best mod menu"
-
-Decompiled and deobfuscated because loader developer is a braindead skid and mod menu owner didn't want to hop on wyvern loader to give me dollars$.
+Decompiled and deobfuscated! The "paid" version of NXO is a scam, this is the only official NXO repository.
 
 <img width="1265" height="673" alt="image" src="https://github.com/user-attachments/assets/b04376cf-d234-4de6-a431-631c832a5969" />
 
