@@ -7,7 +7,7 @@ public class Loader
 {
 	public static void Load()
 	{
-		new Harmony("com.nxo.nxomodmenu.org").PatchAll(typeof(MenuInitializer));
+		new Harmony("com.nxo.nxomodmenu.org").PatchAll();
 		UnityEngine.Debug.Log((object)"NXO v5.2 initialized.");
 	}
 }
