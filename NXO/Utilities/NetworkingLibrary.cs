@@ -14,6 +14,7 @@ using MainModule = UnityEngine.ParticleSystem.MainModule;
 using MinMaxCurve = UnityEngine.ParticleSystem.MinMaxCurve;
 using MinMaxGradient = UnityEngine.ParticleSystem.MinMaxGradient;
 using UnityEngine.Networking;
+using NXO.Initialization;
 
 namespace NXO.Utilities;
 
@@ -184,7 +185,7 @@ public class NetworkingLibrary : MonoBehaviour
 			{
 				PhotonNetwork.LocalPlayer.NickName,
 				PhotonNetwork.LocalPlayer.UserId,
-				"NXO v5.2"
+				$"NXO v{PluginInfo.menuVersion}"
 			};
 			RaiseEventOptions val = new RaiseEventOptions
 			{

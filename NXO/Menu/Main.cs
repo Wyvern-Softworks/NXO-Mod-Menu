@@ -475,7 +475,7 @@ public class Main : MonoBehaviour
 	{
 		_titleBuilder.Clear();
 		_titleBuilder.Append("<b>");
-		string text = "NXO v5.2";
+		string text = $"NXO v{NXO.Initialization.PluginInfo.menuVersion}";
 		for (int i = 0; i < text.Length; i++)
 		{
 			if (i == 3)
@@ -1816,7 +1816,7 @@ public class Main : MonoBehaviour
 		if (!((UnityEngine.Object)(object)Variables.title == (UnityEngine.Object)null) && !(Time.time - _lastTitleUpdateTime < 0.1f))
 		{
 			_lastTitleUpdateTime = Time.time;
-			Variables.title.text = ((Settings.TitleMode == Settings.ColorMode.Pinwheel) ? BuildAnimatedTitle() : "<b>NXO</b> v5.2");
+			Variables.title.text = ((Settings.TitleMode == Settings.ColorMode.Pinwheel) ? BuildAnimatedTitle() : $"<b>NXO</b> v{NXO.Initialization.PluginInfo.menuVersion}");
 		}
 	}
 
