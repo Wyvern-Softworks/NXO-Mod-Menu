@@ -705,7 +705,7 @@ public class NXOUI : MonoBehaviour
 				_fpsUpdateTimer = 0.5f;
 			}
 			_lastWatermarkFps = _displayedFps;
-			_cachedWatermarkText = string.Format("{0} | v{1} | FPS: {2} | (L-Alt) Menu (R-Alt) GUI", "NXO", "5.2", _displayedFps);
+			_cachedWatermarkText = string.Format("{0} | v{1} | FPS: {2} | (L-Alt) Menu (R-Alt) GUI", "NXO", $"{NXO.Initialization.PluginInfo.menuVersion}", _displayedFps);
 			_gc.text = _cachedWatermarkText;
 			_cachedWatermarkW = _sWatermark.CalcSize(_gc).x + 20f;
 		}

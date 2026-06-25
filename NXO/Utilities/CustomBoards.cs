@@ -469,7 +469,7 @@ public class CustomBoards : MonoBehaviour
 		TextMeshPro body;
 		if ((UnityEngine.Object)(object)val != (UnityEngine.Object)null)
 		{
-			((TMP_Text)val).text = "NXO PAID 5.2";
+			((TMP_Text)val).text = $"NXO PAID {NXO.Initialization.PluginInfo.menuVersion}";
 			((Graphic)val).color = Color.white;
 			((TMP_Text)val).richText = true;
 			GameObject obj2 = GameObject.Find("Environment Objects/LocalObjects_Prefab/TreeRoom/COCBodyText_TitleData");
