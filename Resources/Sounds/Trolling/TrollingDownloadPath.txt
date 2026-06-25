@@ -1,13 +1,13 @@
-Daisy Bell;https://github.com/NuggetGT/NXO-Resources/raw/refs/heads/main/Sounds/Trolling/daisy-bell-made-with-Voicemod.mp3
-RUN RUN RUN;https://github.com/NuggetGT/NXO-Resources/raw/refs/heads/main/Sounds/Trolling/gorilla-tag-run-_-scary!!!-_-run!!!-_-made-with-Voicemod.mp3
-PBBV;https://github.com/NuggetGT/NXO-Resources/raw/refs/heads/main/Sounds/Trolling/pbbv-is-here.-made-with-Voicemod.mp3
-WARNING;https://github.com/NuggetGT/NXO-Resources/raw/refs/heads/main/Sounds/Trolling/warning-bot-(gorilla-tag)-made-with-Voicemod.mp3
-SCP 096;https://github.com/NuggetGT/NXO-Resources/raw/refs/heads/main/Sounds/Trolling/Scp%20096%20sounds%20(remastered%20screams%20higher%20quality).mp3
-Tiptoe;https://github.com/NuggetGT/NXO-Resources/raw/refs/heads/main/Sounds/Trolling/tiptoe-slowed-made-with-Voicemod.mp3
-Banshee;https://github.com/NuggetGT/NXO-Resources/raw/refs/heads/main/Sounds/Trolling/banshee-troll-gorilla-tag-made-with-Voicemod.mp3
-Freddy Scream;https://github.com/NuggetGT/NXO-Resources/raw/refs/heads/main/Sounds/Trolling/freddy-scream-made-with-Voicemod.mp3
-Balloon Boy Hello;https://github.com/NuggetGT/NXO-Resources/raw/refs/heads/main/Sounds/Trolling/balloon-boy---hello-made-with-Voicemod%20(1).mp3
-Balloon Boy Hi;https://github.com/NuggetGT/NXO-Resources/raw/refs/heads/main/Sounds/Trolling/hi---balloon-boy-made-with-Voicemod.mp3
-Balloon Boy Laugh;https://github.com/NuggetGT/NXO-Resources/raw/refs/heads/main/Sounds/Trolling/homeboy-bb-laugh-made-with-Voicemod.mp3
-Sonic.exe Laugh;https://github.com/NuggetGT/NXO-Resources/raw/refs/heads/main/Sounds/Trolling/sonic.exe-original-laugh-made-with-Voicemod.mp3
-Scream;https://github.com/NuggetGT/NXO-Resources/raw/refs/heads/main/Sounds/Trolling/scream-made-with-Voicemod.mp3
+Daisy Bell;https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/Sounds/Trolling/daisy-bell-made-with-Voicemod.mp3
+RUN RUN RUN;https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/Sounds/Trolling/gorilla-tag-run-_-scary!!!-_-run!!!-_-made-with-Voicemod.mp3
+PBBV;https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/Sounds/Trolling/pbbv-is-here.-made-with-Voicemod.mp3
+WARNING;https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/Sounds/Trolling/warning-bot-(gorilla-tag)-made-with-Voicemod.mp3
+SCP 096;https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/Sounds/Trolling/Scp%20096%20sounds%20(remastered%20screams%20higher%20quality).mp3
+Tiptoe;https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/Sounds/Trolling/tiptoe-slowed-made-with-Voicemod.mp3
+Banshee;https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/Sounds/Trolling/banshee-troll-gorilla-tag-made-with-Voicemod.mp3
+Freddy Scream;https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/Sounds/Trolling/freddy-scream-made-with-Voicemod.mp3
+Balloon Boy Hello;https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/Sounds/Trolling/balloon-boy---hello-made-with-Voicemod%20(1).mp3
+Balloon Boy Hi;https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/Sounds/Trolling/hi---balloon-boy-made-with-Voicemod.mp3
+Balloon Boy Laugh;https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/Sounds/Trolling/homeboy-bb-laugh-made-with-Voicemod.mp3
+Sonic.exe Laugh;https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/Sounds/Trolling/sonic.exe-original-laugh-made-with-Voicemod.mp3
+Scream;https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/Sounds/Trolling/scream-made-with-Voicemod.mp3

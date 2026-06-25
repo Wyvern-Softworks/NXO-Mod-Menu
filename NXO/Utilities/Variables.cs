@@ -102,7 +102,7 @@ public class Variables
 
 	public static float lastFPSTime = 0f;
 
-	public static string nxouri = "https://nxo.lol/";
+	public static string nxouri = "https://github.com/Wyvern-Softworks/NXO-Mod-Menu";
 
 	private static readonly Dictionary<Type, Array> cache = new Dictionary<Type, Array>();
 

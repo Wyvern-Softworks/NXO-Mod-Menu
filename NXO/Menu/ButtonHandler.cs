@@ -117,35 +117,30 @@ public class ButtonHandler
 			}
 			_lastClickTime = Time.time;
 			GorillaTagger taggerInstance = Variables.taggerInstance;
+			bool favoritePress = InputHandler.LGrip();
 			if (taggerInstance != null)
 			{
 				taggerInstance.StartVibration(Variables.rightHandedMenu, Variables.taggerInstance.tagHapticStrength / 2f, Variables.taggerInstance.tagHapticDuration / 2f);
-				PlayClickSound();
-				InputHandler.LGrip();
+			}
+			PlayClickSound();
+			if (favoritePress)
+			{
+				TryAddModToFavorites(clickedButton);
+				return;
+			}
+			if (!Main.MenuAnimations || animBody.Count == 0)
+			{
+				Toggle(clickedButton);
+			}
+			else if (_pressRoutine != null)
+			{
+				((MonoBehaviour)this).StopCoroutine(_pressRoutine);
+				_pressRoutine = ((MonoBehaviour)this).StartCoroutine(PressRoutine());
 			}
 			else
 			{
-				PlayClickSound();
-				if (!InputHandler.LGrip())
-				{
-					if (!Main.MenuAnimations || animBody.Count == 0)
-					{
-						Toggle(clickedButton);
-					}
-					else if (_pressRoutine != null)
-					{
-						((MonoBehaviour)this).StopCoroutine(_pressRoutine);
-						_pressRoutine = ((MonoBehaviour)this).StartCoroutine(PressRoutine());
-					}
-					else
-					{
-						_pressRoutine = ((MonoBehaviour)this).StartCoroutine(PressRoutine());
-					}
-					return;
-				}
+				_pressRoutine = ((MonoBehaviour)this).StartCoroutine(PressRoutine());
 			}
-			TryAddModToFavorites(clickedButton);
-			Toggle(clickedButton);
 		}
 
 		public void ApplyFactor(float f)
@@ -255,6 +250,7 @@ public class ButtonHandler
 					NotificationLib.SendNotification(NotificationLib.NotificationType.Saved, "Favorited `" + button.buttonText + "`");
 					SaveFavoriteMods();
 					Main.RefreshMenu();
+					return;
 				}
 			}
 			NotificationLib.SendNotification(NotificationLib.NotificationType.Saved, "Favorited `" + button.buttonText + "`");
@@ -344,6 +340,8 @@ public class ButtonHandler
 	private static readonly Dictionary<string, AudioClip> _preloadedClips = new Dictionary<string, AudioClip>();
 
 	private static readonly List<AssetBundle> _loadedBundles = new List<AssetBundle>();
+
+	private static bool _assetBundleClickSoundsPreloadAttempted;
 
 	private static string CustomClickSoundsFolderPath => Path.Combine(Variables.folderName, "Custom Click Sounds");
 
@@ -449,6 +447,7 @@ public class ButtonHandler
 				val.Unload(true);
 			}
 		}
+		_assetBundleClickSoundsPreloadAttempted = true;
 	}
 
 	private static void ViewPresetSettings(string presetName)
@@ -580,6 +579,10 @@ public class ButtonHandler
 		SoundEntry soundEntry = SoundSequence[Settings._currentSoundIndex];
 		if (soundEntry.Type == SoundType.AssetBundle)
 		{
+			if (!_preloadedClips.ContainsKey(soundEntry.ClipName) && !_assetBundleClickSoundsPreloadAttempted)
+			{
+				PreloadAllClickSounds();
+			}
 			if (_preloadedClips.TryGetValue(soundEntry.ClipName, out AudioClip value))
 			{
 				AssetHandler.PlaySound(RigManager.GetHandObject, value, 0.625f);

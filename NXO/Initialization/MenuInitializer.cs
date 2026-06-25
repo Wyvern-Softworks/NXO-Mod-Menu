@@ -20,6 +20,7 @@ internal class MenuInitializer
 			obj.AddComponent<Main>();
 			obj.AddComponent<CoroutineHelper>();
 			obj.AddComponent<NotificationLib>();
+			obj.AddComponent<UpdateChecker>();
 			obj.AddComponent<NXOUI>();
 			obj.AddComponent<CustomBoards>();
 			obj.AddComponent<NetworkingLibrary>();

@@ -863,6 +863,7 @@ public class Main : MonoBehaviour
 			Variables.taggerInstance = GorillaTagger.Instance;
 			Variables.playerInstance = GTPlayer.Instance;
 			Variables.thirdPersonCamera = GameObject.Find("Player Objects/Third Person Camera/Shoulder Camera");
+			ButtonHandler.PreloadAllClickSounds();
             Variables.cm = GameObject.Find("Player Objects/Third Person Camera/Shoulder Camera/CM vcam1");
             if (_fonts.Count == 0)
 			{

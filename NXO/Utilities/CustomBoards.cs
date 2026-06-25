@@ -112,7 +112,7 @@ public class CustomBoards : MonoBehaviour
 			yield break;
 		}
 		Texture2D newTex;
-		using (UnityWebRequest req = UnityWebRequestTexture.GetTexture("https://github.com/Wyvern-Softworks/NXO-Mod-Menu/blob/c242100a63b10d03b33e7a6f45ca9113f363520f/Resources/NXO%20is%20sooooo%20awesome.png?raw=true"))
+		using (UnityWebRequest req = UnityWebRequestTexture.GetTexture("https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/NXO%20is%20sooooo%20awesome.png"))
 		{
 			yield return req.SendWebRequest();
 			if ((int)req.result != 1)
@@ -364,20 +364,8 @@ public class CustomBoards : MonoBehaviour
 
 	public static IEnumerator GetPlayersCoroutine(Action<int> callback)
 	{
-		string url = Variables.nxouri + "/api/ping";
-		using (UnityWebRequest req = UnityWebRequest.Get(url))
-		{
-			req.timeout = 5;
-			yield return req.SendWebRequest();
-			if ((int)req.result == 1 && int.TryParse(req.downloadHandler.text, out int playerCount))
-			{
-				callback?.Invoke(playerCount);
-			}
-			else
-			{
-				callback?.Invoke(-1);
-			}
-		}
+		callback?.Invoke(-1);
+		yield break;
 	}
 
 	private void CacheText(string path)
@@ -464,12 +452,11 @@ public class CustomBoards : MonoBehaviour
 	{
 		for (;;)
 		{
-			using (UnityWebRequest req = UnityWebRequest.Get("https://api.github.com/repos/Wyvern-Softworks/NXO-Mod-Menu/contents/Resources/NXO-Menu-Status.txt"))
+			using (UnityWebRequest req = UnityWebRequest.Get("https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/NXO-Menu-Status.txt"))
 			{
 				req.timeout = 5;
-				req.SetRequestHeader("Accept", "application/vnd.github.v3.raw");
 				yield return req.SendWebRequest();
-				_message = (((int)req.result == 1) ? req.downloadHandler.text.Trim() : "THIS VERSION IS OUTDATED! CHECK DISCORD.GG/NXOONTOP FOR UPDATES.");
+				_message = (((int)req.result == 1) ? req.downloadHandler.text.Trim() : "THIS VERSION IS OUTDATED! CHECK https://github.com/Wyvern-Softworks/NXO-Mod-Menu FOR UPDATES.");
 			}
 			yield return new WaitForSeconds(2f);
 		}
@@ -510,7 +497,7 @@ public class CustomBoards : MonoBehaviour
 				return;
 			}
 			string text = (playerCount < 0) ? "" : $"NXO Users Online: {playerCount}\n\n";
-			((TMP_Text)body).text = "THANK YOU FOR BUYING NXO PAID!\n\nNXO IS NOT RESPONSIBLE FOR ANY ACTIONS\nTAKEN AGAINST YOUR ACCOUNT.\n\n" + text + _message + "\n\nCREATED BY: NUGGET\nDEVELOPERS: CATLICKER AND LIEX\nDISCORD.GG/NXOONTOP";
+			((TMP_Text)body).text = "THANK YOU FOR BUYING NXO PAID!\n\nNXO IS NOT RESPONSIBLE FOR ANY ACTIONS\nTAKEN AGAINST YOUR ACCOUNT.\n\n" + text + _message + "\n\nCREATED BY: NUGGET\nDEVELOPERS: CATLICKER AND LIEX\nhttps://github.com/Wyvern-Softworks/NXO-Mod-Menu";
 		}
 		PlayFabTitleDataTextDisplay component = ((Component)body).GetComponent<PlayFabTitleDataTextDisplay>();
 		if ((UnityEngine.Object)(object)component != (UnityEngine.Object)null)

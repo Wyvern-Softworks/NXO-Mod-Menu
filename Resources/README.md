@@ -1,7 +1,7 @@
 # 🧩 NXO Resources
 
-Welcome to the official **NXO Resources** repository — the asset hub for all things related to **NXO Mod Menu**, created by **Nugget**.  
-This repo includes sounds, images, status data, and other materials that power and support the NXO experience.
+Welcome to the **NXO resources** folder for **NXO Mod Menu**.  
+These assets live under `Resources/` in the main repository: https://github.com/Wyvern-Softworks/NXO-Mod-Menu
 
 ---
 
@@ -16,7 +16,7 @@ This repo includes sounds, images, status data, and other materials that power a
 
 ## 🧠 Why This Repo?
 
-Separating core mod code and assets keeps things clean, modular, and easier to manage. If you're contributing to NXO, you might need to reference or update files in this repo.
+Keeping assets under `Resources/` makes the raw GitHub paths predictable for code and download lists. If you're contributing to NXO, update files here instead of linking to a separate resources repository.
 
 ---
 
@@ -24,8 +24,8 @@ Separating core mod code and assets keeps things clean, modular, and easier to m
 
 Need help or just want to hang out?
 
-Join the official **NXO Discord**:  
-[discord.gg/nxoontop](https://discord.gg/nxoontop)
+Main repository:  
+https://github.com/Wyvern-Softworks/NXO-Mod-Menu
 
 ---
 

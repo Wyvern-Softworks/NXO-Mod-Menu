@@ -1,5 +1,5 @@
 # NXO-Mod-Menu-Continued (base: 5.2)
-**JOIN THE DISCORD: https://discord.gg/wyvern**
+**REPOSITORY: https://github.com/Wyvern-Softworks/NXO-Mod-Menu**
 
 A Gorilla Tag Mod Menu. 500+ mods. Overpowered. Fully Undetected. Fast. Reliable. Built to last. Free to skid.
 
@@ -9,6 +9,6 @@ Decompiled and deobfuscated because loader developer is a braindead skid and mod
 
 (this image is from a older showcase video)
 
-<img width="694" height="474" alt="image" src="https://github.com/user-attachments/assets/ada50f2a-eb77-4e9a-a10a-4bedd30c1fdf" />
+<img width="694" height="474" alt="image" src="https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/NXO_Logo.png" />
 
-<img width="406" height="411" alt="image" src="https://github.com/user-attachments/assets/21a847d1-18a8-4a0c-8941-72294c57667c" />
+<img width="406" height="411" alt="image" src="https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/NXO%20is%20sooooo%20awesome.png" />

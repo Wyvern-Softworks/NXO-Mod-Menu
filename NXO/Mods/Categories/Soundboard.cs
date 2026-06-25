@@ -23,9 +23,9 @@ public static class Soundboard
 
 	private static readonly Dictionary<string, string> soundboardUrls = new Dictionary<string, string>
 	{
-		{ "SFX", "https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/SoundEffects/SoundEffectsDownloadPath.txt" },
-		{ "Trolling", "https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/Trolling/TrollingDownloadPath.txt" },
-		{ "Songs", "https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/Songs/SongsDownloadPath.txt" }
+		{ "SFX", "https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/Sounds/SoundEffects/SoundEffectsDownloadPath.txt" },
+		{ "Trolling", "https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/Sounds/Trolling/TrollingDownloadPath.txt" },
+		{ "Songs", "https://raw.githubusercontent.com/Wyvern-Softworks/NXO-Mod-Menu/refs/heads/main/Resources/Sounds/Songs/SongsDownloadPath.txt" }
 	};
 
 	public static Dictionary<string, string> SFX = new Dictionary<string, string>();
