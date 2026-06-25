@@ -3,7 +3,7 @@
 
 A Gorilla Tag Mod Menu. 500+ mods. Overpowered. Fully Undetected. Fast. Reliable. Built to last. Free to skid.
 
-Decompiled and deobfuscated! The "paid" version of NXO is a scam, this is the only official NXO repository.
+The "paid" version of NXO is a scam, this is the only official free NXO repository.
 
 # How to use
 Simply go to releases, download the DLL and put it in your BepInEx plugins folder.
