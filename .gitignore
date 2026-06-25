@@ -1,0 +1,32 @@
+# Build output
+bin/
+obj/
+
+# IDE/editor files
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs and local runtime output
+*.log
+NXO_TRACE.log
+NXO_LAST_TRACE.txt
+
+# Generated/publicized references
+References.Publicized/
+References.Publicized.Managed/
+
+# NuGet/cache artifacts
+packages/
+*.nupkg
+project.assets.json
+project.nuget.cache
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store

@@ -1,0 +1,383 @@
+NXO Paid Features List
+Latest Version: v3.1
+Categories: 16 | Total Features: 350+
+
+Settings:
+Menu Settings:
+- Open NXO Folder
+- Disable All Mods
+- Switch Hands
+- Sharp Corners
+- Animate Title
+- Toggle Array List
+- Menu Font (Cycle Font)
+- Outline Theme (Shader Theme Changer)
+- Background Color
+- Custom Outline Color 1
+- Custom Outline Color 2
+- Button Color
+- Enabled Button Color
+- Open & Close Sound
+- Click Sound (Change Sound)
+- Toggle Notifications
+- Room Notifications
+- Room Notifications Sound
+- Clear Notifications
+
+Gun Settings:
+- Gun Animation (Cycle)
+- Big Gun Pointer
+- Gun Line
+
+Safety Mods:
+- Anti Report Radius (Adjustable)
+- Visualize Anti Report
+- Anti Report
+- Join Random Anti Report
+- Reconnect Anti Report
+- No Finger Movement
+- Name Spoof
+- Color Spoof
+- Bypass Mod Checkers
+- Bypass Automod
+- Anti Moderator
+- Anti Cheat Notifications
+- Accept TOS
+- Bypass K-ID
+- Fake Lag (A)
+- Disable Quit Box
+
+Room Mods:
+- Quit Game
+- Disconnect
+- Reconnect
+- Join Random
+- Disable Network Triggers
+- Grab All IDs
+- Grab Own ID
+- US Servers
+- USW Servers
+- EU Servers
+- Unlock Competitive
+
+VRRig Mods:
+- Ghost Monke (A)
+- Invisible Monke (A)
+- Ghost & Invisibility (A/B)
+- Freeze Rig (A)
+- Grab Rig (RG/LG)
+- Long Arms Length (Adjustable)
+- Long Arms
+- Griddy (RT)
+- Dance Monke (RT)
+- Size Change (LT/RT/CS)
+- Networked Size Change (LT/RT)
+- Helicopter Monke (RT)
+- Ascend Monke (RT)
+- Spaz Monke
+- T-Pose (RT)
+- Spin Head
+- Upside Head
+- Backwards Head
+- Snap Neck (Left)
+- Snap Neck (Right)
+- Rig Gun
+- Teleport Gun
+- Chase Gun
+- Orbit Gun
+- Jumpscare Gun
+- Copy Player Gun
+- Mirror Player Gun
+- Backshot Player Gun
+- BJ Player Gun
+- Piggyback Player Gun
+- Stare at Player Gun
+
+Movement Mods:
+- Flight Speed (Adjustable)
+- Flight (B)
+- Platform Type (Cycle)
+- Use Triggers For Platforms
+- Platforms (RG/LG)
+- Frozone (RG/LG)
+- Boost Speed (Adjustable)
+- Use Grip For Speedboost
+- Speed Boost
+- Noclip (RT)
+- Wall Walk Strength (Adjustable)
+- Wall Walk (RG/LG)
+- Spider Walk (RG/LG)
+- Pull Mod
+- Iron Monke (RG/LG)
+- Accel Flight (B)
+- Up And Down (LT/RT)
+- Low Gravity
+- Zero Gravity
+- High Gravity
+- Reverse Gravity
+- WASD Movement
+- Freecam (LJ)
+- Funny Run (RG/LG)
+- Flick Jump (B)
+- Uncap Max Velocity
+- Swim Speed Boost
+- Dash Monke (A)
+- Checkpoint (RG/RT)
+- Slide Control
+- Anti Slip
+- Slippy Hands
+- No Tag Freeze
+- Force Tag Freeze
+
+Gamemode Mods:
+Tag:
+- Tag All (RT)
+- Tag Gun
+- Flick Tag (RT)
+- Tag Aura (RT)
+- Tag Self
+- Un-Tag Self
+- Anti Tag
+- No Tag On Join
+- No Tag Limit
+- Untag All (M)
+- Untag Gun (M)
+
+Guardian:
+- Auto Guardian
+- Guardian Grab All (RG)
+- Guardian Release All (RT)
+- Guardian Orbit All (RT)
+- Guardian Fling All (RT)
+- Guardian Fling Gun
+- Guardian Bring All To Pointer
+- Guardian Self (M)
+- Guardian All (M)
+- Guardian Gun (M)
+- Un-Guardian Self (M)
+- Un-Guardian All (M)
+- Un-Guardian Gun (M)
+
+Paintbrawl:
+- Paintbrawl Aimbot
+- Paintbrawl Kill All
+- Paintbrawl Kill Gun
+- Paintbrawl Kill Self
+- Paintbrawl Godmode (M)
+- Paintbrawl No Delay (M)
+- Paintbrawl Mat All (M)
+- Paintbrawl Mat Gun (M)
+- Paintbrawl End Game (M)
+- Paintbrawl Start Game (M)
+- Paintbrawl Restart Game (M)
+- Paintbrawl Spam Balloon All (M)
+- Paintbrawl Spam Balloon Gun (M)
+- Paintbrawl Spam Balloon Self (M)
+- Paintbrawl Revive All (M)
+- Paintbrawl Revive Gun (M)
+- Paintbrawl Revive Self (M)
+
+Visual Mods:
+- Nametag Type (Cycle)
+- Name Tags
+- Team Checked ESP
+- Unfilled Box ESP
+- Unfilled Box ESP 2D
+- Filled Box ESP
+- Filled Box ESP 2D
+- Tracer Position (Adjustable)
+- Tracers ESP
+- Prediction ESP
+- Bone ESP
+- Skeleton ESP
+- Chams ESP
+- Body Wireframe ESP
+- Trails ESP
+- Beacons ESP
+- FPC FOV (Adjustable)
+- First Person Camera
+- FPS Boost
+- X-Ray
+- Fuck Colors
+- Acid Trip
+- Trippy Monkes
+- Shiny Monkes
+- Shiny Self
+- 90 FPS
+- 72 FPS
+- 60 FPS
+- 45 FPS
+- 30 FPS
+- 15 FPS
+- Uncap FPS
+
+Audio Mods:
+Soundboard:
+- Enter Soundboard
+- Load Soundboard
+- Disable All Sounds
+- Loop Sounds
+- Sound Input (Cycle Controller Bind)
+- SFX (Sounds have to be loaded)
+- Trolling (Sounds have to be loaded)
+- Songs (Sounds have to be loaded)
+
+Microphone:
+- Reload Microphone
+- Hear Self
+- High Quality Microphone
+- Low Quality Microphone
+- Loud Microphone
+- Mute Microphone
+- High Pitch Microphone
+- Low Pitch Microphone
+- Echo Microphone
+- Static Microphone
+- Muffled Microphone
+
+Sound Spams:
+- Random Sound Spam (RT)
+- Annoying Sound Spam (RT)
+- Boop Player
+- Gong Player
+- Slap Player
+- Jman HELLO! Sound Spam (RT)
+- Jman Slap Sound Spam (RT)
+- Jman Okay Sound Spam (RT)
+- Glass Sound Spam (RT)
+- Metal Sound Spam (RT)
+- Pop Sound Spam (RT)
+- Squeaky Sound Spam (RT)
+- Crystal Sound Spam (RT)
+- Turkey Sound Spam (RT)
+- Frog Sound Spam (RT)
+- AK-47 Sound Spam (RT)
+- Wolf Sound Spam (RT)
+- Cat Sound Spam (RT)
+- Bee Sound Spam (RT)
+
+Fun Mods:
+General:
+- Displacer Cannon
+- Jet Pack
+- Web Shooters (RG/LG)
+- Web Shooters v2 (RG/LG)
+- Try Cosmetics Anywhere
+- Draw Mod (RG/LG)
+- Place Bomb (RG/RT)
+- Punch Mod
+- Unlock All Cosmetics
+- Unlock All Gadgets
+- Complete All Quests
+- Loud Hand Taps
+- Silent Hand Taps
+- Instant Hand Taps
+- Change Time
+- Disable Rain
+- Rain Mode
+- Mute Elevator
+- Disable Wind Barriers
+- Spam Bracelet (G)
+- Remove Bracelets
+- Max Quest Score
+
+Water:
+- Solid Water
+- Disable Water
+- Air Swim
+- Water Bender (RG/LG)
+- Splash Gun
+- Water Barrage (RT)
+- Splash Aura (RT)
+- Splash Self (RT)
+
+Glider:
+- Grab Gliders (RG)
+- Orbit Gliders (RT)
+- Spaz Gliders (RT)
+- Glider Gun
+- Fast Gliders
+- Slowmo Gliders
+- Destroy Gliders
+- Respawn Gliders
+- Glider Annoy All (RT)
+- Glider Annoy Gun
+
+Entity:
+- Become Bug (A)
+- Grab Bug (RG)
+- Bug Gun
+- Bug Orbit
+- Become Bat (A)
+- Grab Bat (RG)
+- Bat Gun
+- Bat Orbit
+
+Hoverboard:
+- Black Screen Gun
+- Strobe Screen Gun
+- Rainbow Screen Gun
+- Spawn Hoverboard
+- Shoot Hoverboards (RG)
+- Orbit Hoverboards
+- Hoverboard Gun
+
+Projectile Mods:
+- Snowball Effect Gun
+- Touch to Snowball Effect
+- Projectile Size (Adjustable)
+- Projectile Speed (Adjustable)
+- Anti Knockback
+- Spam Projectiles
+- Shoot Projectiles
+- Spread Projectiles
+- Projectile Gun
+
+Macros:
+- Open Macros Folder
+- Record Macro (A)
+- Recorded Macros
+
+Presets:
+- Open Presets Folder
+- Save Preset
+- Saved Presets
+
+Overpowered Mods:
+- Kick Master
+- Kick Master Gun
+- Instant Freeze All
+- Lag Type (Adjustable)
+- Lag All (RT)
+- Lag Gun
+- Touch To Lag
+- Get Touched To Lag
+- Fling On Grab
+- Metro Crash On Grab
+- Fling To Point On Grab
+- Crash Modders On Grab
+- Deafen All
+- Deafen Gun
+- Earrape
+- Barrel Fling Gun
+- Touch To Barrel Fling
+- Party Kick All
+- Lock Room
+- Unlock Room
+- Enable Event (M)
+- Disable Event (M)
+- Spam Event (M)
+- Infinite Event (M)
+- Slow All (M)
+- Slow Gun (M)
+- Vibrate All (M)
+- Vibrate Gun (M)
+- Material All (M)
+- Material Gun (M)
+- Spaz All Targets (M)
+
+Menu Navigation Features:
+- Enabled Mods (View all currently active mods)
+- Favorited Mods (LG To Favorite - Quick access to favorite mods)
+- Players In Room (Player-specific actions)
+- Search Mods (Search functionality for finding features quickly)

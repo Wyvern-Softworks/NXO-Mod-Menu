@@ -1,0 +1,38 @@
+namespace NXO.Mods;
+
+public enum Category
+{
+	Home,
+	Searched_Mods,
+	Settings,
+	Presets,
+	Recorded_Macros,
+	Saved_Presets,
+	Gear_Menu,
+	Enabled,
+	Favorited,
+	Player_Action,
+	Safety,
+	Players,
+	Room,
+	Player,
+	Movement,
+	Gamemode,
+	Visuals,
+	Audio,
+	Fun,
+	Projectiles,
+	Macros,
+	Overpowered,
+	Soundboard,
+	Custom_Sounds,
+	SFX,
+	Trolling,
+	Songs,
+	Default,
+	Menu_Settings,
+	Notification_Settings,
+	Gun_Settings,
+	Color_Settings,
+	Element_Settings
+}

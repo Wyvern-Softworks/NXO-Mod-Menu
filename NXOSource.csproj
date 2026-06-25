@@ -1,0 +1,577 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>NXO</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>preview</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace />
+  </PropertyGroup>
+  <PropertyGroup>
+    <GorillaTagDir>C:\Program Files (x86)\Steam\steamapps\common\Gorilla Tag\</GorillaTagDir>
+    <GorillaTagManagedDir>$(GorillaTagDir)Gorilla Tag_Data\Managed\</GorillaTagManagedDir>
+    <GorillaTagBepInExCoreDir>$(GorillaTagDir)BepInEx\core\</GorillaTagBepInExCoreDir>
+    <ManagedPublicizedDir>$(MSBuildThisFileDirectory)References.Publicized.Managed\</ManagedPublicizedDir>
+    <NuGetPackageRoot Condition="'$(NuGetPackageRoot)' == ''">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
+    <AssemblyPublicizerDll>$(NuGetPackageRoot)bepinex.assemblypublicizer\0.4.3\lib\netstandard2.0\BepInEx.AssemblyPublicizer.dll</AssemblyPublicizerDll>
+    <AsmResolverDll>$(NuGetPackageRoot)asmresolver\5.5.1\lib\netstandard2.1\AsmResolver.dll</AsmResolverDll>
+    <AsmResolverDotNetDll>$(NuGetPackageRoot)asmresolver.dotnet\5.5.1\lib\netstandard2.1\AsmResolver.DotNet.dll</AsmResolverDotNetDll>
+    <AsmResolverPeDll>$(NuGetPackageRoot)asmresolver.pe\5.5.1\lib\netstandard2.1\AsmResolver.PE.dll</AsmResolverPeDll>
+    <AsmResolverPeFileDll>$(NuGetPackageRoot)asmresolver.pe.file\5.5.1\lib\netstandard2.1\AsmResolver.PE.File.dll</AsmResolverPeFileDll>
+
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Reference>
+      <Private>False</Private>
+    </Reference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Remove="NXO.Resources.acidtrip" />
+    <None Remove="NXO.Resources.click1" />
+    <None Remove="NXO.Resources.minecraftclick" />
+    <None Remove="NXO.Resources.minecraftfont" />
+    <None Remove="NXO.Resources.nxostevestuff" />
+    <None Remove="NXO.Resources.pinwheelshader" />
+    <None Remove="NXO.Resources.thocky" />
+    <None Remove="NXO.Resources.disconnecticon.png" />
+    <None Remove="NXO.Resources.homeicon.png" />
+    <None Remove="NXO.Resources.searchicon.png" />
+    <None Remove="NXO.Resources.NotificationSound.wav" />
+    <None Remove="NXO.Resources.SteamClose.wav" />
+    <None Remove="NXO.Resources.SteamOpen.wav" />
+    <EmbeddedResource Include="NXO.Resources.acidtrip" LogicalName="NXO.Resources.acidtrip" />
+    <EmbeddedResource Include="NXO.Resources.click1" LogicalName="NXO.Resources.click1" />
+    <EmbeddedResource Include="NXO.Resources.minecraftclick" LogicalName="NXO.Resources.minecraftclick" />
+    <EmbeddedResource Include="NXO.Resources.minecraftfont" LogicalName="NXO.Resources.minecraftfont" />
+    <EmbeddedResource Include="NXO.Resources.nxostevestuff" LogicalName="NXO.Resources.nxostevestuff" />
+    <EmbeddedResource Include="NXO.Resources.pinwheelshader" LogicalName="NXO.Resources.pinwheelshader" />
+    <EmbeddedResource Include="NXO.Resources.thocky" LogicalName="NXO.Resources.thocky" />
+    <EmbeddedResource Include="NXO.Resources.disconnecticon.png" LogicalName="NXO.Resources.disconnecticon.png" />
+    <EmbeddedResource Include="NXO.Resources.homeicon.png" LogicalName="NXO.Resources.homeicon.png" />
+    <EmbeddedResource Include="NXO.Resources.searchicon.png" LogicalName="NXO.Resources.searchicon.png" />
+    <EmbeddedResource Include="NXO.Resources.NotificationSound.wav" LogicalName="NXO.Resources.NotificationSound.wav" />
+    <EmbeddedResource Include="NXO.Resources.SteamClose.wav" LogicalName="NXO.Resources.SteamClose.wav" />
+    <EmbeddedResource Include="NXO.Resources.SteamOpen.wav" LogicalName="NXO.Resources.SteamOpen.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="BepInEx.AssemblyPublicizer" Version="0.4.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <GorillaTagPublicizedReference Include="Assembly-CSharp;PhotonUnityNetworking;Newtonsoft.Json;Oculus.VR;SteamVR;SteamVR_Actions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>$(GorillaTagBepInExCoreDir)0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(ManagedPublicizedDir)Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>$(GorillaTagBepInExCoreDir)BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Fusion.Common">
+      <HintPath>$(GorillaTagManagedDir)Fusion.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Fusion.Log">
+      <HintPath>$(GorillaTagManagedDir)Fusion.Log.dll</HintPath>
+    </Reference>
+    <Reference Include="Fusion.Realtime">
+      <HintPath>$(GorillaTagManagedDir)Fusion.Realtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Fusion.Runtime">
+      <HintPath>$(GorillaTagManagedDir)Fusion.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Fusion.Sockets">
+      <HintPath>$(GorillaTagManagedDir)Fusion.Sockets.dll</HintPath>
+    </Reference>
+    <Reference Include="Fusion.Unity">
+      <HintPath>$(GorillaTagManagedDir)Fusion.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Photon3Unity3D">
+      <HintPath>$(GorillaTagManagedDir)Photon3Unity3D.dll</HintPath>
+    </Reference>
+    <Reference Include="PhotonRealtime">
+      <HintPath>$(GorillaTagManagedDir)PhotonRealtime.dll</HintPath>
+    </Reference>
+    <Reference Include="PhotonUnityNetworking">
+      <HintPath>$(ManagedPublicizedDir)PhotonUnityNetworking.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(ManagedPublicizedDir)Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Oculus.VR">
+      <HintPath>$(ManagedPublicizedDir)Oculus.VR.dll</HintPath>
+    </Reference>
+    <Reference Include="SteamVR">
+      <HintPath>$(ManagedPublicizedDir)SteamVR.dll</HintPath>
+    </Reference>
+    <Reference Include="SteamVR_Actions">
+      <HintPath>$(ManagedPublicizedDir)SteamVR_Actions.dll</HintPath>
+    </Reference>
+    <Reference Include="PhotonUnityNetworking.Utilities">
+      <HintPath>$(GorillaTagManagedDir)PhotonUnityNetworking.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="PhotonVoice">
+      <HintPath>$(GorillaTagManagedDir)PhotonVoice.dll</HintPath>
+    </Reference>
+    <Reference Include="PhotonVoice.API">
+      <HintPath>$(GorillaTagManagedDir)PhotonVoice.API.dll</HintPath>
+    </Reference>
+    <Reference Include="PhotonVoice.Fusion">
+      <HintPath>$(GorillaTagManagedDir)PhotonVoice.Fusion.dll</HintPath>
+    </Reference>
+    <Reference Include="PhotonVoice.PUN">
+      <HintPath>$(GorillaTagManagedDir)PhotonVoice.PUN.dll</HintPath>
+    </Reference>
+    <Reference Include="PlayFab">
+      <HintPath>$(GorillaTagManagedDir)PlayFab.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Addressables">
+      <HintPath>$(GorillaTagManagedDir)Unity.Addressables.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.AI.Navigation">
+      <HintPath>$(GorillaTagManagedDir)Unity.AI.Navigation.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Animation.Rigging">
+      <HintPath>$(GorillaTagManagedDir)Unity.Animation.Rigging.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Animation.Rigging.DocCodeExamples">
+      <HintPath>$(GorillaTagManagedDir)Unity.Animation.Rigging.DocCodeExamples.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst">
+      <HintPath>$(GorillaTagManagedDir)Unity.Burst.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Unsafe">
+      <HintPath>$(GorillaTagManagedDir)Unity.Burst.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Cinemachine">
+      <HintPath>$(GorillaTagManagedDir)Unity.Cinemachine.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Collections">
+      <HintPath>$(GorillaTagManagedDir)Unity.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Collections.LowLevel.ILSupport">
+      <HintPath>$(GorillaTagManagedDir)Unity.Collections.LowLevel.ILSupport.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Formats.Fbx.Runtime">
+      <HintPath>$(GorillaTagManagedDir)Unity.Formats.Fbx.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.InputSystem">
+      <HintPath>$(GorillaTagManagedDir)Unity.InputSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.InputSystem.ForUI">
+      <HintPath>$(GorillaTagManagedDir)Unity.InputSystem.ForUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.InternalAPIEngineBridge.013">
+      <HintPath>$(GorillaTagManagedDir)Unity.InternalAPIEngineBridge.013.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Localization">
+      <HintPath>$(GorillaTagManagedDir)Unity.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics">
+      <HintPath>$(GorillaTagManagedDir)Unity.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.MemoryProfiler">
+      <HintPath>$(GorillaTagManagedDir)Unity.MemoryProfiler.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Multiplayer.Center.Common">
+      <HintPath>$(GorillaTagManagedDir)Unity.Multiplayer.Center.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Multiplayer.Playmode">
+      <HintPath>$(GorillaTagManagedDir)Unity.Multiplayer.Playmode.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Multiplayer.Playmode.Common.Runtime">
+      <HintPath>$(GorillaTagManagedDir)Unity.Multiplayer.Playmode.Common.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder">
+      <HintPath>$(GorillaTagManagedDir)Unity.ProBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.Csg">
+      <HintPath>$(GorillaTagManagedDir)Unity.ProBuilder.Csg.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.KdTree">
+      <HintPath>$(GorillaTagManagedDir)Unity.ProBuilder.KdTree.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.Poly2Tri">
+      <HintPath>$(GorillaTagManagedDir)Unity.ProBuilder.Poly2Tri.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.Stl">
+      <HintPath>$(GorillaTagManagedDir)Unity.ProBuilder.Stl.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Profiling.Core">
+      <HintPath>$(GorillaTagManagedDir)Unity.Profiling.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Recorder">
+      <HintPath>$(GorillaTagManagedDir)Unity.Recorder.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Recorder.Base">
+      <HintPath>$(GorillaTagManagedDir)Unity.Recorder.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Rendering.LightTransport.Runtime">
+      <HintPath>$(GorillaTagManagedDir)Unity.Rendering.LightTransport.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
+      <HintPath>$(GorillaTagManagedDir)Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Runtime">
+      <HintPath>$(GorillaTagManagedDir)Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Runtime.Shared">
+      <HintPath>$(GorillaTagManagedDir)Unity.RenderPipelines.Core.Runtime.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
+      <HintPath>$(GorillaTagManagedDir)Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.GPUDriven.Runtime">
+      <HintPath>$(GorillaTagManagedDir)Unity.RenderPipelines.GPUDriven.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
+      <HintPath>$(GorillaTagManagedDir)Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.2D.Runtime">
+      <HintPath>$(GorillaTagManagedDir)Unity.RenderPipelines.Universal.2D.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Config.Runtime">
+      <HintPath>$(GorillaTagManagedDir)Unity.RenderPipelines.Universal.Config.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Runtime">
+      <HintPath>$(GorillaTagManagedDir)Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Shaders">
+      <HintPath>$(GorillaTagManagedDir)Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ResourceManager">
+      <HintPath>$(GorillaTagManagedDir)Unity.ResourceManager.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ScriptableBuildPipeline">
+      <HintPath>$(GorillaTagManagedDir)Unity.ScriptableBuildPipeline.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Splines">
+      <HintPath>$(GorillaTagManagedDir)Unity.Splines.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>$(GorillaTagManagedDir)Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Timeline">
+      <HintPath>$(GorillaTagManagedDir)Unity.Timeline.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualEffectGraph.Runtime">
+      <HintPath>$(GorillaTagManagedDir)Unity.VisualEffectGraph.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.CoreUtils">
+      <HintPath>$(GorillaTagManagedDir)Unity.XR.CoreUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.Interaction.Toolkit">
+      <HintPath>$(GorillaTagManagedDir)Unity.XR.Interaction.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.Management">
+      <HintPath>$(GorillaTagManagedDir)Unity.XR.Management.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.OpenVR">
+      <HintPath>$(GorillaTagManagedDir)Unity.XR.OpenVR.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.OpenXR">
+      <HintPath>$(GorillaTagManagedDir)Unity.XR.OpenXR.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.OpenXR.Features.ConformanceAutomation">
+      <HintPath>$(GorillaTagManagedDir)Unity.XR.OpenXR.Features.ConformanceAutomation.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.OpenXR.Features.MetaQuestSupport">
+      <HintPath>$(GorillaTagManagedDir)Unity.XR.OpenXR.Features.MetaQuestSupport.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.OpenXR.Features.MockRuntime">
+      <HintPath>$(GorillaTagManagedDir)Unity.XR.OpenXR.Features.MockRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.OpenXR.Features.OculusQuestSupport">
+      <HintPath>$(GorillaTagManagedDir)Unity.XR.OpenXR.Features.OculusQuestSupport.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.OpenXR.Features.RuntimeDebugger">
+      <HintPath>$(GorillaTagManagedDir)Unity.XR.OpenXR.Features.RuntimeDebugger.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AccessibilityModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.AccessibilityModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AIModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.AIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AMDModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.AMDModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AndroidJNIModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.AndroidJNIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ARModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.ARModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.AssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.AudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClothModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.ClothModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterInputModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.ClusterInputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterRendererModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.ClusterRendererModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ContentLoadModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.ContentLoadModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CrashReportingModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.CrashReportingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.DirectorModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.DirectorModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.DSPGraphModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.DSPGraphModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GameCenterModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.GameCenterModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GIModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.GIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GraphicsStateCollectionSerializerModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.GraphicsStateCollectionSerializerModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.GridModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.GridModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.HierarchyCoreModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.HierarchyCoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.HotReloadModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.HotReloadModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IdentifiersModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.IdentifiersModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputForUIModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.InputForUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.InputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InsightsModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.InsightsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.JSONSerializeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.LocalizationModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.LocalizationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.MarshallingModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.MarshallingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.MultiplayerModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.MultiplayerModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.NVIDIAModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.NVIDIAModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.ParticleSystemModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PerformanceReportingModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.PerformanceReportingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Physics2DModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.Physics2DModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PropertiesModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.PropertiesModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ScreenCaptureModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.ScreenCaptureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ShaderVariantAnalyticsModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.ShaderVariantAnalyticsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SharedInternalsModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.SharedInternalsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpatialTracking">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpriteMaskModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.SpriteMaskModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpriteShapeModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.SpriteShapeModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.StreamingModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.StreamingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SubstanceModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.SubstanceModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SubsystemsModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.SubsystemsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TerrainModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.TerrainModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TerrainPhysicsModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.TerrainPhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreFontEngineModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.TextCoreFontEngineModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreTextEngineModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.TextCoreTextEngineModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TilemapModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.TilemapModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TLSModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.TLSModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.UIElementsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.UIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UmbraModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.UmbraModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityAnalyticsCommonModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.UnityAnalyticsCommonModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityAnalyticsModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.UnityAnalyticsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityConnectModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.UnityConnectModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityConsentModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.UnityConsentModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityCurlModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.UnityCurlModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityTestProtocolModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.UnityTestProtocolModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAudioModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.UnityWebRequestModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestTextureModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestWWWModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VehiclesModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.VehiclesModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VFXModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.VFXModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VideoModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.VideoModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VirtualTexturingModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.VirtualTexturingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VRModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.VRModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.WindModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.WindModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.XR.LegacyInputHelpers">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.XRModule">
+      <HintPath>$(GorillaTagManagedDir)UnityEngine.XRModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <UsingTask TaskName="PublicizeAssembly" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <InputAssembly ParameterType="System.String" Required="true" />
+      <OutputAssembly ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Reference Include="$(AssemblyPublicizerDll)" />
+      <Reference Include="$(AsmResolverDll)" />
+      <Reference Include="$(AsmResolverDotNetDll)" />
+      <Reference Include="$(AsmResolverPeDll)" />
+      <Reference Include="$(AsmResolverPeFileDll)" />
+      <Using Namespace="BepInEx.AssemblyPublicizer" />
+      <Code Type="Fragment" Language="cs"><![CDATA[
+var outputDirectory = System.IO.Path.GetDirectoryName(OutputAssembly);
+if (!string.IsNullOrEmpty(outputDirectory))
+{
+    System.IO.Directory.CreateDirectory(outputDirectory);
+}
+
+var options = new AssemblyPublicizerOptions
+{
+    Target = PublicizeTarget.All,
+    PublicizeCompilerGenerated = true,
+    IncludeOriginalAttributesAttribute = true,
+    Strip = false
+};
+
+AssemblyPublicizer.Publicize(InputAssembly, OutputAssembly, options);
+return true;
+      ]]></Code>
+    </Task>
+  </UsingTask>
+  <Target Name="PublicizeGorillaTagReferences" BeforeTargets="ResolveAssemblyReferences" Inputs="@(GorillaTagPublicizedReference->'$(GorillaTagManagedDir)%(Identity).dll')" Outputs="@(GorillaTagPublicizedReference->'$(ManagedPublicizedDir)%(Identity).dll')">
+    <Error Condition="!Exists('$(GorillaTagManagedDir)')" Text="Gorilla Tag managed directory was not found: $(GorillaTagManagedDir)" />
+    <Error Condition="!Exists('$(AssemblyPublicizerDll)')" Text="BepInEx.AssemblyPublicizer was not restored. Run dotnet restore." />
+    <Error Condition="!Exists('$(AsmResolverDll)') Or !Exists('$(AsmResolverDotNetDll)') Or !Exists('$(AsmResolverPeDll)') Or !Exists('$(AsmResolverPeFileDll)')" Text="AsmResolver dependencies were not restored. Run dotnet restore." />
+    <Error Condition="!Exists('$(GorillaTagManagedDir)%(GorillaTagPublicizedReference.Identity).dll')" Text="Gorilla Tag reference was not found: $(GorillaTagManagedDir)%(GorillaTagPublicizedReference.Identity).dll" />
+    <MakeDir Directories="$(ManagedPublicizedDir)" />
+    <PublicizeAssembly InputAssembly="$(GorillaTagManagedDir)%(GorillaTagPublicizedReference.Identity).dll" OutputAssembly="$(ManagedPublicizedDir)%(GorillaTagPublicizedReference.Identity).dll" />
+  </Target>
+</Project>
