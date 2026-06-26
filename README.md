@@ -1,6 +1,8 @@
 # NXO-Mod-Menu
 **DISCORD: https://discord.gg/wyvern**
 
+**THIS IS THE ONLY REAL VERSION OF NXO! DO NOT TRUST THE FAKE PAID VERSION.**
+
 A Gorilla Tag Mod Menu. 500+ mods. Overpowered. Fully Undetected. Fast. Reliable. Built to last. Free to skid.
 
 The "paid" version of NXO is a scam, this is the only official free NXO repository.
