@@ -26,6 +26,8 @@ public class Movement
 
 	public static bool isTriggerPlatforms = false;
 
+	private static bool longJumpPressed = false;
+
 	private static Vector3 wallContactPoint;
 
 	private static Vector3 wallContactNormal;
@@ -112,6 +114,51 @@ public class Movement
 			transform3.localEulerAngles += new Vector3((0f - val2.y) * num2, val2.x * num2, 0f);
 		}
 		OldMousePosition = UnityInput.Current.mousePosition;
+	}
+
+	public static void TriggerFly()
+	{
+		if (InputHandler.RTrigger())
+		{
+			Rigidbody component = ((Component)Variables.playerInstance).GetComponent<Rigidbody>();
+			Transform transform = ((Component)Variables.playerInstance.headCollider).transform;
+			Transform transform2 = ((Component)Variables.playerInstance).transform;
+			transform2.position += transform.forward * Time.deltaTime * Settings.FlySpeed;
+			component.linearVelocity = Vector3.zero;
+		}
+	}
+
+	public static void HandFly()
+	{
+		Vector3 direction = Vector3.zero;
+		if (InputHandler.LGrip())
+		{
+			direction += -Variables.playerInstance.LeftHand.controllerTransform.up;
+		}
+		if (InputHandler.RGrip())
+		{
+			direction += -Variables.playerInstance.RightHand.controllerTransform.up;
+		}
+		if (direction == Vector3.zero)
+		{
+			return;
+		}
+		Rigidbody component = ((Component)Variables.playerInstance).GetComponent<Rigidbody>();
+		Transform transform = ((Component)Variables.playerInstance).transform;
+		transform.position += direction.normalized * Time.deltaTime * Settings.FlySpeed;
+		component.linearVelocity = Vector3.zero;
+	}
+
+	public static void AutoWalk()
+	{
+		Vector3 forward = ((Component)Variables.playerInstance.headCollider).transform.forward;
+		forward.y = 0f;
+		if (forward.sqrMagnitude < 0.0001f)
+		{
+			return;
+		}
+		Transform transform = ((Component)Variables.playerInstance).transform;
+		transform.position += forward.normalized * Time.deltaTime * Mathf.Max(2.5f, Settings.SpeedboostSpeed * 0.35f);
 	}
 
 	public static void SpeedBoost()
@@ -262,10 +309,29 @@ public class Movement
 
 	public static void Noclip()
 	{
-		bool flag = InputHandler.RTrigger();
-		if (flag != noclipEnabled)
+		SetNoclipActive(InputHandler.RTrigger());
+	}
+
+	public static void GripNoclip()
+	{
+		SetNoclipActive(InputHandler.LGrip() || InputHandler.RGrip());
+	}
+
+	public static void ConstantNoclip()
+	{
+		SetNoclipActive(active: true);
+	}
+
+	public static void DisableNoclip()
+	{
+		SetNoclipActive(active: false);
+	}
+
+	private static void SetNoclipActive(bool active)
+	{
+		if (active != noclipEnabled)
 		{
-			noclipEnabled = flag;
+			noclipEnabled = active;
 			MeshCollider[] array = UnityEngine.Object.FindObjectsOfType<MeshCollider>();
 			foreach (MeshCollider val in array)
 			{
@@ -478,27 +544,47 @@ public class Movement
 
 	public static void FlyNoclip()
 	{
-		bool flag = default(bool);
-		if (InputHandler.RPrimary())
+		bool active = InputHandler.RPrimary();
+		if (active)
 		{
 			Transform transform = ((Component)Variables.playerInstance).transform;
 			transform.position += ((Component)Variables.playerInstance.headCollider).transform.forward * Time.deltaTime * Settings.FlySpeed;
-			((Component)Variables.playerInstance).GetComponent<Rigidbody>().velocity = Vector3.zero;
-			if (flag == noclipEnabled)
+			((Component)Variables.playerInstance).GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+		}
+		SetNoclipActive(active);
+	}
+
+	public static void FeatherFalling()
+	{
+		Rigidbody component = ((Component)Variables.playerInstance).GetComponent<Rigidbody>();
+		Vector3 linearVelocity = component.linearVelocity;
+		if (linearVelocity.y < -2f)
+		{
+			linearVelocity.y = -2f;
+			component.linearVelocity = linearVelocity;
+		}
+	}
+
+	public static void LongJump()
+	{
+		if (InputHandler.RPrimary())
+		{
+			if (longJumpPressed)
 			{
 				return;
 			}
-		}
-		else if (flag == noclipEnabled)
-		{
+			longJumpPressed = true;
+			Rigidbody component = ((Component)Variables.playerInstance).GetComponent<Rigidbody>();
+			Vector3 forward = ((Component)Variables.playerInstance.headCollider).transform.forward;
+			forward.y = 0f;
+			if (forward.sqrMagnitude < 0.0001f)
+			{
+				forward = ((Component)Variables.playerInstance).transform.forward;
+			}
+			component.linearVelocity = forward.normalized * 8f + Vector3.up * 5f;
 			return;
 		}
-		noclipEnabled = flag;
-		MeshCollider[] array = UnityEngine.Object.FindObjectsOfType<MeshCollider>();
-		foreach (MeshCollider val in array)
-		{
-			((Collider)val).enabled = !noclipEnabled;
-		}
+		longJumpPressed = false;
 	}
 
 	public static void HighGravity()

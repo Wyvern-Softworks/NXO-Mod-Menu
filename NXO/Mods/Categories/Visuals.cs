@@ -133,6 +133,14 @@ public class Visuals
 
 	public static bool muteMonkeSense = false;
 
+	private static bool fullbrightApplied = false;
+
+	private static Color originalAmbientLight;
+
+	private static bool originalFog;
+
+	private static readonly Dictionary<AudioSource, float> mutedAmbienceSources = new Dictionary<AudioSource, float>();
+
 	public static void TrippyMonkes(bool enable)
 	{
 		if (!enable)
@@ -1071,6 +1079,60 @@ public class Visuals
 		else
 		{
 			ZoneShaderSettings.activeInstance.SetGroundFogValue(Color.clear, 0f, 0f, 0f);
+		}
+	}
+
+	public static void Fullbright(bool enable)
+	{
+		if (enable)
+		{
+			if (!fullbrightApplied)
+			{
+				originalAmbientLight = RenderSettings.ambientLight;
+				originalFog = RenderSettings.fog;
+				fullbrightApplied = true;
+			}
+			RenderSettings.ambientLight = Color.white;
+			RenderSettings.fog = false;
+			return;
+		}
+		if (!fullbrightApplied)
+		{
+			return;
+		}
+		RenderSettings.ambientLight = originalAmbientLight;
+		RenderSettings.fog = originalFog;
+		fullbrightApplied = false;
+	}
+
+	public static void DisableAmbience(bool enable)
+	{
+		if (!enable)
+		{
+			foreach (KeyValuePair<AudioSource, float> current in mutedAmbienceSources)
+			{
+				if ((UnityEngine.Object)(object)current.Key != (UnityEngine.Object)null)
+				{
+					current.Key.volume = current.Value;
+				}
+			}
+			mutedAmbienceSources.Clear();
+			return;
+		}
+		AudioSource[] array = UnityEngine.Object.FindObjectsOfType<AudioSource>();
+		foreach (AudioSource val in array)
+		{
+			if ((UnityEngine.Object)(object)val == (UnityEngine.Object)null || mutedAmbienceSources.ContainsKey(val))
+			{
+				continue;
+			}
+			GameObject gameObject = ((Component)val).gameObject;
+			if (((UnityEngine.Object)gameObject).name.StartsWith("NXO", StringComparison.OrdinalIgnoreCase) || !val.loop || val.spatialBlend < 0.5f)
+			{
+				continue;
+			}
+			mutedAmbienceSources[val] = val.volume;
+			val.volume = 0f;
 		}
 	}
 

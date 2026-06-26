@@ -13,7 +13,7 @@ namespace NXO.Mods;
 
 public class ModButtons
 {
-	private static ButtonHandler.Button[] _buttons = new ButtonHandler.Button[456]
+	private static ButtonHandler.Button[] _buttons = new ButtonHandler.Button[465]
 	{
 		new ButtonHandler.Button("Settings", Category.Home, isToggle: false, isActive: false, delegate
 		{
@@ -997,9 +997,20 @@ public class ModButtons
 		{
 			Movement.FlyMonke(useVelocity: false);
 		}),
+		new ButtonHandler.Button("Trigger Fly (RT)", Category.Movement, isToggle: true, isActive: false, delegate
+		{
+			Movement.TriggerFly();
+		}),
+		new ButtonHandler.Button("Hand Fly (RG/LG)", Category.Movement, isToggle: true, isActive: false, delegate
+		{
+			Movement.HandFly();
+		}),
 		new ButtonHandler.Button("Fly + Noclip (A)", Category.Movement, isToggle: true, isActive: false, delegate
 		{
 			Movement.FlyNoclip();
+		}, delegate
+		{
+			Movement.DisableNoclip();
 		}),
 		(Settings.cyclePlatformTypeButton = new ButtonHandler.Button("Platform Type : " + Settings.PlatformType, Category.Movement, isToggle: false, isActive: false, null, null, incremental: true, delegate
 		{
@@ -1044,6 +1055,23 @@ public class ModButtons
 		new ButtonHandler.Button("Noclip (RT)", Category.Movement, isToggle: true, isActive: false, delegate
 		{
 			Movement.Noclip();
+		}, delegate
+		{
+			Movement.DisableNoclip();
+		}),
+		new ButtonHandler.Button("Grip Noclip (RG/LG)", Category.Movement, isToggle: true, isActive: false, delegate
+		{
+			Movement.GripNoclip();
+		}, delegate
+		{
+			Movement.DisableNoclip();
+		}),
+		new ButtonHandler.Button("Constant Noclip", Category.Movement, isToggle: true, isActive: false, delegate
+		{
+			Movement.ConstantNoclip();
+		}, delegate
+		{
+			Movement.DisableNoclip();
 		}),
 		(Settings.adjustWalkWalkStrengthButton = new ButtonHandler.Button("Wall Walk Strength : " + Settings.WalkWalkStrengthDescription, Category.Movement, isToggle: false, isActive: false, null, null, incremental: true, delegate
 		{
@@ -1088,9 +1116,21 @@ public class ModButtons
 		{
 			Movement.ReverseGravity();
 		}),
+		new ButtonHandler.Button("Feather Falling", Category.Movement, isToggle: true, isActive: false, delegate
+		{
+			Movement.FeatherFalling();
+		}),
+		new ButtonHandler.Button("Long Jump (A)", Category.Movement, isToggle: true, isActive: false, delegate
+		{
+			Movement.LongJump();
+		}),
 		new ButtonHandler.Button("WASD Movement", Category.Movement, isToggle: true, isActive: false, delegate
 		{
 			Movement.WASDMovement();
+		}),
+		new ButtonHandler.Button("Auto Walk", Category.Movement, isToggle: true, isActive: false, delegate
+		{
+			Movement.AutoWalk();
 		}),
 		new ButtonHandler.Button("Joystick Fly", Category.Movement, isToggle: true, isActive: false, delegate
 		{
@@ -1349,6 +1389,20 @@ public class ModButtons
 		}, delegate
 		{
 			Visuals.ToggleFog(enable: false);
+		}),
+		new ButtonHandler.Button("Fullbright", Category.Visuals, isToggle: true, isActive: false, delegate
+		{
+			Visuals.Fullbright(enable: true);
+		}, delegate
+		{
+			Visuals.Fullbright(enable: false);
+		}),
+		new ButtonHandler.Button("Disable Ambience", Category.Visuals, isToggle: true, isActive: false, delegate
+		{
+			Visuals.DisableAmbience(enable: true);
+		}, delegate
+		{
+			Visuals.DisableAmbience(enable: false);
 		}),
 		new ButtonHandler.Button("Fuck Colors", Category.Visuals, isToggle: true, isActive: false, delegate
 		{
