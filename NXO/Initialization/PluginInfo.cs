@@ -6,5 +6,5 @@ public static class PluginInfo
 
 	public static string menuName = "NXO";
 
-	public static string menuVersion = "5.3";
+	public static string menuVersion = "5.4";
 }

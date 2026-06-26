@@ -70,6 +70,10 @@ public class NXOUI : MonoBehaviour
 
 	private Font _font;
 
+	private static int _fontVersion;
+
+	private int _seenFontVersion = -1;
+
 	private int _btnIndex;
 
 	private readonly Dictionary<string, Texture2D> _tex = new Dictionary<string, Texture2D>(16);
@@ -161,6 +165,27 @@ public class NXOUI : MonoBehaviour
 		};
 		val2.normal.textColor = Color.white;
 		_sWatermark = val2;
+	}
+
+	public static void RequestRebuild()
+	{
+		_fontVersion++;
+	}
+
+	private void SyncFont()
+	{
+		Font currentFont = Main.CurrentFont;
+		if ((UnityEngine.Object)(object)currentFont == (UnityEngine.Object)null)
+		{
+			currentFont = Resources.GetBuiltinResource<Font>("Arial.ttf");
+		}
+		if ((UnityEngine.Object)(object)_font != (UnityEngine.Object)(object)currentFont || _seenFontVersion != _fontVersion)
+		{
+			_font = currentFont;
+			_seenFontVersion = _fontVersion;
+			_dirty = true;
+			_lastWatermarkFps = -1;
+		}
 	}
 
 	private static Color FlowColor(float phaseOffset = 0f)
@@ -393,6 +418,7 @@ public class NXOUI : MonoBehaviour
 			_lastH = height;
 			_dirty = true;
 		}
+		SyncFont();
 		GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, Vector3.one * ((float)width / (float)originalWidth * 2f));
 		if (_dirty)
 		{
@@ -505,7 +531,11 @@ public class NXOUI : MonoBehaviour
 
 	private void Awake()
 	{
-		_font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+		_font = Main.CurrentFont;
+		if ((UnityEngine.Object)(object)_font == (UnityEngine.Object)null)
+		{
+			_font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+		}
 		_pixel = new Texture2D(1, 1, (TextureFormat)4, false)
 		{
 			filterMode = (FilterMode)0

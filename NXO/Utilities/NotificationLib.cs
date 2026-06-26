@@ -158,6 +158,28 @@ internal class NotificationLib : MonoBehaviour
 		}
 	}
 
+	public static void RefreshFonts()
+	{
+		if ((UnityEngine.Object)(object)Instance == (UnityEngine.Object)null)
+		{
+			return;
+		}
+		Font currentFont = Main.CurrentFont;
+		if ((UnityEngine.Object)(object)currentFont == (UnityEngine.Object)null)
+		{
+			return;
+		}
+		if ((UnityEngine.Object)(object)Instance._notificationText != (UnityEngine.Object)null)
+		{
+			Instance._notificationText.font = currentFont;
+		}
+		if ((UnityEngine.Object)(object)Instance._arrayListText != (UnityEngine.Object)null)
+		{
+			Instance._arrayListText.font = currentFont;
+			Instance._arrayListCacheVersion = -1;
+		}
+	}
+
 	public void UpdateArrayList()
 	{
 		if (!_hasInitialized)

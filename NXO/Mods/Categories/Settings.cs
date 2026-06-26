@@ -648,6 +648,12 @@ public class Settings
 
 	public static ButtonHandler.Button cycleGunAnimationButton;
 
+	public static ButtonHandler.Button leftHandGunButton;
+
+	public static ButtonHandler.Button griplessGunsButton;
+
+	public static ButtonHandler.Button triggerlessGunsButton;
+
 	private static readonly string[] GunAnimations = new string[2] { "None", "Wiggly" };
 
 	private static int gunAnimationIndex = 0;
@@ -675,7 +681,7 @@ public class Settings
 
 	public static int CurrentFontIndex { get; private set; }
 
-	public static string CurrentFontDescription => (Main._fonts.Count > 0) ? Main._fonts[CurrentFontIndex].Description : "Arial";
+	public static string CurrentFontDescription => (Main._fonts.Count > 0 && CurrentFontIndex >= 0 && CurrentFontIndex < Main._fonts.Count) ? Main._fonts[CurrentFontIndex].Description : "Arial";
 
 	public static string ClickSoundDescription => ButtonHandler.SoundSequence[_currentSoundIndex].Description;
 
@@ -707,6 +713,11 @@ public class Settings
 			return -1;
 		}
 		return num;
+	}
+
+	private static bool IsOnValue(string value)
+	{
+		return value.Equals("On", StringComparison.OrdinalIgnoreCase) || value.Equals("True", StringComparison.OrdinalIgnoreCase) || value == "1";
 	}
 
 	public static void AdjustArmLength(bool forward)
@@ -773,6 +784,24 @@ public class Settings
 	public static void BigPointer(bool setActive)
 	{
 		GunLib.BigGunPointer = setActive;
+	}
+
+	public static void LeftHandGun(bool setActive)
+	{
+		GunLib.LeftHandGun = setActive;
+		GunLib.CancelGunUse();
+	}
+
+	public static void GriplessGuns(bool setActive)
+	{
+		GunLib.GriplessGuns = setActive;
+		GunLib.CancelGunUse();
+	}
+
+	public static void TriggerlessGuns(bool setActive)
+	{
+		GunLib.TriggerlessGuns = setActive;
+		GunLib.CancelGunUse();
 	}
 
 	public static void CycleControllerBind(bool forward = true)
@@ -935,6 +964,11 @@ public class Settings
 
 	public static void SaveSettings(string path)
 	{
+		string directoryName = Path.GetDirectoryName(path);
+		if (!string.IsNullOrEmpty(directoryName))
+		{
+			Directory.CreateDirectory(directoryName);
+		}
 		File.WriteAllLines(path, BuildSettingsLines());
 	}
 
@@ -1186,6 +1220,12 @@ public class Settings
 				num++;
 			}
 		}
+		NotificationLib.RefreshFonts();
+		NXOUI.RequestRebuild();
+		if ((UnityEngine.Object)(object)Variables.menuObj != (UnityEngine.Object)null)
+		{
+			Main.RefreshMenu();
+		}
 	}
 
 	public static void SaveSettings()
@@ -1340,6 +1380,9 @@ public class Settings
 				CurrentFontIndex = (CurrentFontIndex + 1) % Main._fonts.Count;
 				CycleMenuFontButton?.SetText("Menu Font : " + CurrentFontDescription);
 			}
+			NotificationLib.RefreshFonts();
+			NXOUI.RequestRebuild();
+			Main.RefreshMenu();
 		}
 	}
 
@@ -1471,7 +1514,7 @@ public class Settings
 
 	private static string[] BuildSettingsLines()
 	{
-		return new string[54]
+		return new string[57]
 		{
 			"Pinwheel Speed : " + PinwheelSpeedDescription,
 			"Tracer Position : " + TracerPosition,
@@ -1490,6 +1533,9 @@ public class Settings
 			"Lag Type : " + LagTypeDescription,
 			"Nametag Type : " + NametagType,
 			"Gun Animation : " + GunAnimationType,
+			"Left Hand Gun : " + (GunLib.LeftHandGun ? "On" : "Off"),
+			"Gripless Guns : " + (GunLib.GriplessGuns ? "On" : "Off"),
+			"Triggerless Guns : " + (GunLib.TriggerlessGuns ? "On" : "Off"),
 			"Background Color : " + BackgroundColorDescription,
 			"Background Color 2 : " + BackgroundColor2Description,
 			"Pinwheel Color 1 : " + PinwheelColor1Name,
@@ -2114,6 +2160,27 @@ public class Settings
 			{
 				GunAnimationType = GunAnimations[gunAnimationIndex];
 				cycleGunAnimationButton?.SetText("Gun Animation : " + GunAnimationType);
+			}
+			break;
+		case "Left Hand Gun":
+			GunLib.LeftHandGun = IsOnValue(value);
+			if (leftHandGunButton != null)
+			{
+				leftHandGunButton.Enabled = GunLib.LeftHandGun;
+			}
+			break;
+		case "Gripless Guns":
+			GunLib.GriplessGuns = IsOnValue(value);
+			if (griplessGunsButton != null)
+			{
+				griplessGunsButton.Enabled = GunLib.GriplessGuns;
+			}
+			break;
+		case "Triggerless Guns":
+			GunLib.TriggerlessGuns = IsOnValue(value);
+			if (triggerlessGunsButton != null)
+			{
+				triggerlessGunsButton.Enabled = GunLib.TriggerlessGuns;
 			}
 			break;
 		case "Background Color":

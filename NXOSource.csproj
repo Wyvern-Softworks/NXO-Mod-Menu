@@ -31,32 +31,8 @@
     </Reference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Remove="NXO.Resources.acidtrip" />
-    <None Remove="NXO.Resources.click1" />
-    <None Remove="NXO.Resources.minecraftclick" />
-    <None Remove="NXO.Resources.minecraftfont" />
-    <None Remove="NXO.Resources.nxostevestuff" />
-    <None Remove="NXO.Resources.pinwheelshader" />
-    <None Remove="NXO.Resources.thocky" />
-    <None Remove="NXO.Resources.disconnecticon.png" />
-    <None Remove="NXO.Resources.homeicon.png" />
-    <None Remove="NXO.Resources.searchicon.png" />
-    <None Remove="NXO.Resources.NotificationSound.wav" />
-    <None Remove="NXO.Resources.SteamClose.wav" />
-    <None Remove="NXO.Resources.SteamOpen.wav" />
-    <EmbeddedResource Include="NXO.Resources.acidtrip" LogicalName="NXO.Resources.acidtrip" />
-    <EmbeddedResource Include="NXO.Resources.click1" LogicalName="NXO.Resources.click1" />
-    <EmbeddedResource Include="NXO.Resources.minecraftclick" LogicalName="NXO.Resources.minecraftclick" />
-    <EmbeddedResource Include="NXO.Resources.minecraftfont" LogicalName="NXO.Resources.minecraftfont" />
-    <EmbeddedResource Include="NXO.Resources.nxostevestuff" LogicalName="NXO.Resources.nxostevestuff" />
-    <EmbeddedResource Include="NXO.Resources.pinwheelshader" LogicalName="NXO.Resources.pinwheelshader" />
-    <EmbeddedResource Include="NXO.Resources.thocky" LogicalName="NXO.Resources.thocky" />
-    <EmbeddedResource Include="NXO.Resources.disconnecticon.png" LogicalName="NXO.Resources.disconnecticon.png" />
-    <EmbeddedResource Include="NXO.Resources.homeicon.png" LogicalName="NXO.Resources.homeicon.png" />
-    <EmbeddedResource Include="NXO.Resources.searchicon.png" LogicalName="NXO.Resources.searchicon.png" />
-    <EmbeddedResource Include="NXO.Resources.NotificationSound.wav" LogicalName="NXO.Resources.NotificationSound.wav" />
-    <EmbeddedResource Include="NXO.Resources.SteamClose.wav" LogicalName="NXO.Resources.SteamClose.wav" />
-    <EmbeddedResource Include="NXO.Resources.SteamOpen.wav" LogicalName="NXO.Resources.SteamOpen.wav" />
+    <None Remove="NXO.Resources.*" />
+    <EmbeddedResource Include="NXO.Resources.*" LogicalName="%(Filename)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BepInEx.AssemblyPublicizer" Version="0.4.3" />

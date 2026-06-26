@@ -111,7 +111,7 @@ public class ButtonHandler
 			{
 				return;
 			}
-			if (((UnityEngine.Object)((Component)collider).gameObject).name != "buttonclicker" || Time.time - _lastClickTime < 0.25f)
+			if (((UnityEngine.Object)((Component)collider).gameObject).name != "buttonclicker" || Time.time - _lastClickTime < 0.25f || !CanPress(clickedButton))
 			{
 				return;
 			}
@@ -351,6 +351,38 @@ public class ButtonHandler
 
 	private static string PresetsDirectoryPath => Path.Combine(Variables.folderName, "Presets");
 
+	private static bool CanPress(Button button)
+	{
+		if (button == null || string.IsNullOrEmpty(button.buttonText))
+		{
+			return false;
+		}
+		if (button.buttonText == "<" || button.buttonText == ">" || button.buttonText == "ReturnButton" || button.buttonText == "Toggle Search Button")
+		{
+			return true;
+		}
+		if (button.buttonText.EndsWith("_DOWN") || button.buttonText.EndsWith("_UP"))
+		{
+			return true;
+		}
+		return button.isToggle || button.onEnable != null || button.isCategory;
+	}
+
+	private static void PersistSettings()
+	{
+		try
+		{
+			if (!string.IsNullOrEmpty(Variables.folderName))
+			{
+				Settings.SaveSettings();
+			}
+		}
+		catch (Exception ex)
+		{
+			UnityEngine.Debug.LogError((object)("[NXO] Failed to persist settings: " + ex));
+		}
+	}
+
 	public static void LoadCustomClickSounds()
 	{
 		foreach (KeyValuePair<string, AudioClip> current in _customClickClips)
@@ -412,7 +444,12 @@ public class ButtonHandler
 
 	public static void LoadAutoSavePreference()
 	{
-		Variables.AutoSave = PlayerPrefs.GetInt("NXO_AutoSave", 1) == 1;
+		Variables.AutoSave = PlayerPrefs.GetInt(AutoSavePrefKey, 1) == 1;
+		Button button = ModButtons.buttons.FirstOrDefault((Button b) => b != null && b.buttonText == "Auto Save");
+		if (button != null)
+		{
+			button.Enabled = Variables.AutoSave;
+		}
 	}
 
 	public static void OpenFolder(string path)
@@ -739,7 +776,26 @@ public class ButtonHandler
 		}
 		if (File.Exists(path))
 		{
-			File.WriteAllLines(path, Array.Empty<string>());
+			HashSet<string> hashSet = File.ReadAllLines(path).ToHashSet();
+			foreach (Button current in ModButtons.buttons.Where((Button b) => b != null && b.isToggle && b.buttonText != "Auto Save"))
+			{
+				bool shouldBeEnabled = hashSet.Contains(current.buttonText);
+				if (current.Enabled == shouldBeEnabled)
+				{
+					continue;
+				}
+				current.Enabled = shouldBeEnabled;
+				if (shouldBeEnabled)
+				{
+					SafeInvoke(current.onEnable, current.buttonText);
+					NXOUI.AddMod(current.buttonText);
+				}
+				else
+				{
+					SafeInvoke(current.onDisable, current.buttonText);
+					NXOUI.RemoveMod(current.buttonText);
+				}
+			}
 		}
 	}
 
@@ -762,7 +818,7 @@ public class ButtonHandler
 	{
 		Directory.CreateDirectory(AutoSaveDirectoryPath);
 		List<string> contents = (from b in ModButtons.buttons
-			where b != null && b.isToggle && b.Enabled
+			where b != null && b.isToggle && b.Enabled && b.buttonText != "Auto Save"
 			select b.buttonText).ToList();
 		File.WriteAllLines(Path.Combine(AutoSaveDirectoryPath, "Mods.txt"), contents);
 		Settings.SaveSettings(Path.Combine(AutoSaveDirectoryPath, "Settings.txt"));
@@ -962,7 +1018,7 @@ public class ButtonHandler
 
 	public static void ToggleButton(Button button)
 	{
-		if (button == null)
+		if (!CanPress(button))
 		{
 			return;
 		}
@@ -977,6 +1033,7 @@ public class ButtonHandler
 			{
 				NotificationLib.SendNotification(NotificationLib.NotificationType.Enabled, button.buttonText);
 			}
+			PersistSettings();
 			return;
 		}
 		button.Enabled = !button.Enabled;
@@ -986,6 +1043,7 @@ public class ButtonHandler
 			NotificationLib.SendNotification(NotificationLib.NotificationType.Enabled, button.buttonText);
 			NXOUI.AddMod(button.buttonText);
 			Main.RedrawButtonList();
+			PersistSettings();
 		}
 		else
 		{
@@ -993,6 +1051,7 @@ public class ButtonHandler
 			NotificationLib.SendNotification(NotificationLib.NotificationType.Disabled, button.buttonText);
 			NXOUI.RemoveMod(button.buttonText);
 			Main.RedrawButtonList();
+			PersistSettings();
 		}
 	}
 
@@ -1098,6 +1157,7 @@ public class ButtonHandler
 			}
 			SafeInvoke(button2.down, text);
 			Main.RedrawButtonList();
+			PersistSettings();
 			return;
 		}
 		if (button.buttonText.EndsWith("_UP"))
@@ -1117,6 +1177,7 @@ public class ButtonHandler
 			}
 			SafeInvoke(button3.up, text2);
 			Main.RedrawButtonList();
+			PersistSettings();
 			return;
 		}
 		switch (button.buttonText)

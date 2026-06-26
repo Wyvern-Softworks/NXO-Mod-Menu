@@ -211,8 +211,8 @@ public class Player
 		}
 		else
 		{
-			GunLib.lockedTargetRig = null;
-			GunLib.SetGunVisibility(isVisible: false);
+			SetRigStatus(rigStatus: true);
+			GunLib.CancelGunUse();
 		}
 	}
 
@@ -300,7 +300,8 @@ public class Player
 		}
 		else
 		{
-			GunLib.SetGunVisibility(isVisible: false);
+			SetRigStatus(rigStatus: true);
+			GunLib.CancelGunUse();
 		}
 	}
 
@@ -399,8 +400,8 @@ public class Player
 		}
 		else
 		{
-			GunLib.lockedTargetRig = null;
-			GunLib.SetGunVisibility(isVisible: false);
+			SetRigStatus(rigStatus: true);
+			GunLib.CancelGunUse();
 		}
 	}
 
@@ -987,8 +988,8 @@ public class Player
 		}
 		else
 		{
-			GunLib.lockedTargetRig = null;
-			GunLib.SetGunVisibility(isVisible: false);
+			SetRigStatus(rigStatus: true);
+			GunLib.CancelGunUse();
 		}
 	}
 
@@ -1034,8 +1035,8 @@ public class Player
 		}
 		else
 		{
-			GunLib.lockedTargetRig = null;
-			GunLib.SetGunVisibility(isVisible: false);
+			SetRigStatus(rigStatus: true);
+			GunLib.CancelGunUse();
 		}
 	}
 
@@ -1072,8 +1073,8 @@ public class Player
 		}
 		else
 		{
-			GunLib.lockedTargetRig = null;
-			GunLib.SetGunVisibility(isVisible: false);
+			SetRigStatus(rigStatus: true);
+			GunLib.CancelGunUse();
 		}
 	}
 
@@ -1154,8 +1155,8 @@ public class Player
 		}
 		else
 		{
-			GunLib.lockedTargetRig = null;
-			GunLib.SetGunVisibility(isVisible: false);
+			SetRigStatus(rigStatus: true);
+			GunLib.CancelGunUse();
 		}
 	}
 
@@ -1294,8 +1295,8 @@ public class Player
 		}
 		else
 		{
-			GunLib.lockedTargetRig = null;
-			GunLib.SetGunVisibility(isVisible: false);
+			SetRigStatus(rigStatus: true);
+			GunLib.CancelGunUse();
 		}
 	}
 
@@ -1404,8 +1405,8 @@ public class Player
 			GunLib.lockedTargetRig = null;
 			return;
 		}
-		GunLib.lockedTargetRig = null;
-		GunLib.SetGunVisibility(isVisible: false);
+		SetRigStatus(rigStatus: true);
+		GunLib.CancelGunUse();
 	}
 
 	public static void DanceMonke()
@@ -1654,7 +1655,8 @@ public class Player
 		}
 		else
 		{
-			GunLib.SetGunVisibility(isVisible: false);
+			hasTeleported = false;
+			GunLib.CancelGunUse();
 		}
 	}
 

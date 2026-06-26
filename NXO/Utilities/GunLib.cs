@@ -17,6 +17,12 @@ public class GunLib
 
 	public static bool GunLineEnabled;
 
+	public static bool LeftHandGun;
+
+	public static bool GriplessGuns;
+
+	public static bool TriggerlessGuns;
+
 	public static VRRig lockedTargetRig;
 
 	public static VRRig potentialTargetRig;
@@ -45,15 +51,19 @@ public class GunLib
 
 	private static readonly Vector3 _scaleBig = new Vector3(0.2f, 0.2f, 0.2f);
 
-	public static bool GunGrips => Mouse.current.rightButton.isPressed || InputHandler.RGrip();
+	public static bool GunGrips => GriplessGuns || (Mouse.current != null && Mouse.current.rightButton.isPressed) || (LeftHandGun ? InputHandler.LGrip() : InputHandler.RGrip());
 
-	public static bool GunTriggers => Mouse.current.leftButton.isPressed || InputHandler.RTrigger();
+	public static bool GunTriggers => TriggerlessGuns || (Mouse.current != null && Mouse.current.leftButton.isPressed) || (LeftHandGun ? InputHandler.LTrigger() : InputHandler.RTrigger());
+
+	private static Transform GunControllerTransform => LeftHandGun ? Variables.playerInstance.LeftHand.controllerTransform : Variables.playerInstance.RightHand.controllerTransform;
+
+	private static Transform GunVisualHandTransform => LeftHandGun ? Variables.taggerInstance.leftHandTransform : Variables.taggerInstance.rightHandTransform;
 
 	public static bool SetupGun()
 	{
 		if (!GunGrips)
 		{
-			SetGunVisibility(isVisible: false);
+			CancelGunUse();
 			return false;
 		}
 		SetupRaycast();
@@ -79,13 +89,13 @@ public class GunLib
 
 	public static void SetupRaycast()
 	{
-		bool useMouseRay = Mouse.current.rightButton.isPressed || Mouse.current.leftButton.isPressed;
-		Transform controllerTransform = Variables.playerInstance.RightHand.controllerTransform;
+		bool useMouseRay = Mouse.current != null && (Mouse.current.rightButton.isPressed || Mouse.current.leftButton.isPressed);
+		Transform controllerTransform = GunControllerTransform;
 		if ((UnityEngine.Object)(object)_thirdPersonCameraCache == (UnityEngine.Object)null && (UnityEngine.Object)(object)Variables.thirdPersonCamera != (UnityEngine.Object)null)
 		{
 			_thirdPersonCameraCache = Variables.thirdPersonCamera.GetComponent<Camera>();
 		}
-		Ray val = useMouseRay ? _thirdPersonCameraCache.ScreenPointToRay((Vector2)(((InputControl<Vector2>)(object)((Pointer)Mouse.current).position).ReadValue())) : new Ray(controllerTransform.position - controllerTransform.up, -controllerTransform.up);
+		Ray val = (useMouseRay && (UnityEngine.Object)(object)_thirdPersonCameraCache != (UnityEngine.Object)null) ? _thirdPersonCameraCache.ScreenPointToRay((Vector2)(((InputControl<Vector2>)(object)((Pointer)Mouse.current).position).ReadValue())) : new Ray(controllerTransform.position - controllerTransform.up, -controllerTransform.up);
 		raycastHasHit = Physics.Raycast(val, out raycastHit, 100f, Variables.NoInvisLayers());
 		Vector3 position;
 		if ((UnityEngine.Object)(object)lockedTargetRig != (UnityEngine.Object)null)
@@ -148,11 +158,12 @@ public class GunLib
 				cylinderRenderers[i].sharedMaterial = lineMaterial;
 			}
 		}
-		Vector3 position = Variables.taggerInstance.rightHandTransform.position;
+		Transform gunVisualHandTransform = GunVisualHandTransform;
+		Vector3 position = gunVisualHandTransform.position;
 		lineMaterial.color = (Color32)(val);
 		if (Settings.GunAnimationType == "Wiggly")
 		{
-			Vector3 right = Variables.taggerInstance.rightHandTransform.right;
+			Vector3 right = gunVisualHandTransform.right;
 			float time = Time.time;
 			for (int i = 0; i < 49; i++)
 			{
@@ -199,8 +210,7 @@ public class GunLib
 	{
 		if (!GunGrips)
 		{
-			lockedTargetRig = null;
-			SetGunVisibility(isVisible: false);
+			CancelGunUse();
 			return false;
 		}
 		if ((UnityEngine.Object)(object)lockedTargetRig != (UnityEngine.Object)null && lockedTargetRig.Creator == null)
@@ -223,5 +233,12 @@ public class GunLib
 			}
 		}
 		return (UnityEngine.Object)(object)lockedTargetRig != (UnityEngine.Object)null;
+	}
+
+	public static void CancelGunUse()
+	{
+		lockedTargetRig = null;
+		potentialTargetRig = null;
+		SetGunVisibility(isVisible: false);
 	}
 }

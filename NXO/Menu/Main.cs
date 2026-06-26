@@ -301,7 +301,7 @@ public class Main : MonoBehaviour
 
 	private static List<Mesh> MeshSink => _drawingPageButtons ? _pageButtonMeshes : _dynamicMeshes;
 
-	public static Font CurrentFont => (_fonts.Count > 0) ? _fonts[Settings.CurrentFontIndex].Font : null;
+	public static Font CurrentFont => (_fonts.Count > 0 && Settings.CurrentFontIndex >= 0 && Settings.CurrentFontIndex < _fonts.Count) ? _fonts[Settings.CurrentFontIndex].Font : Resources.GetBuiltinResource<Font>("Arial.ttf");
 
 	public static void AddModButtons(float offset, ButtonHandler.Button button)
 	{
@@ -319,8 +319,13 @@ public class Main : MonoBehaviour
 		GameObject val = CreateCube("Button: " + button.buttonText, null, keepCollider: true);
 		val.transform.localScale = new Vector3(0.0075f, width, 0.08f);
 		val.transform.localPosition = new Vector3(0.07525f, yOffset, 0.335f - offset);
-		ButtonHandler.BtnCollider btnCollider = val.AddComponent<ButtonHandler.BtnCollider>();
-		btnCollider.clickedButton = button;
+		bool isActionable = !button.incremental && (button.isToggle || button.onEnable != null || ButtonHandler.IsCategoryButton(button));
+		ButtonHandler.BtnCollider btnCollider = null;
+		if (isActionable)
+		{
+			btnCollider = val.AddComponent<ButtonHandler.BtnCollider>();
+			btnCollider.clickedButton = button;
+		}
 		ApplyColor(val, (Color32)(button.Enabled ? Settings.EnabledButtonColor : Settings.ButtonColor));
 		List<GameObject> outline = ApplyOutline(val, 2, 0.0065f);
 		List<GameObject> list = null;
@@ -357,8 +362,11 @@ public class Main : MonoBehaviour
 			component2.sizeDelta = button.incremental ? IncrementalTextSize : ModTextSize;
 			categoryArrow = ((Component)val3).transform;
 		}
-		RegisterClickAnim(btnCollider, val, list, outline, ((Component)val2).transform, categoryArrow);
-		if (MenuAnimations && button.isToggle && button.Enabled)
+		if (btnCollider != null)
+		{
+			RegisterClickAnim(btnCollider, val, list, outline, ((Component)val2).transform, categoryArrow);
+		}
+		if (btnCollider != null && MenuAnimations && button.isToggle && button.Enabled)
 		{
 			btnCollider.ApplyFactor(0.92f);
 		}
@@ -863,13 +871,15 @@ public class Main : MonoBehaviour
 			Variables.taggerInstance = GorillaTagger.Instance;
 			Variables.playerInstance = GTPlayer.Instance;
 			Variables.thirdPersonCamera = GameObject.Find("Player Objects/Third Person Camera/Shoulder Camera");
+			LoadFonts();
+			ButtonHandler.LoadCustomClickSounds();
 			ButtonHandler.PreloadAllClickSounds();
-            Variables.cm = GameObject.Find("Player Objects/Third Person Camera/Shoulder Camera/CM vcam1");
-            if (_fonts.Count == 0)
-			{
-				RegisterFont("Arial", Resources.GetBuiltinResource<Font>("Arial.ttf"));
-			}
-			Variables.AutoSave = false;
+			Settings.CaptureDefaults();
+			ButtonHandler.LoadAutoSavePreference();
+			Settings.LoadSettings();
+			ButtonHandler.LoadAutosavedStuff();
+			ButtonHandler.LoadFavoritedMods();
+			Variables.cm = GameObject.Find("Player Objects/Third Person Camera/Shoulder Camera/CM vcam1");
 			_lastAutoSaveTime = Time.time;
 			UnityEngine.Debug.Log((object)"[NXO] Main.Start end");
 		}
@@ -1896,10 +1906,17 @@ public class Main : MonoBehaviour
 		{
 			return;
 		}
-		if (Variables.AutoSave && Time.time - _lastAutoSaveTime >= 60f)
+		if (Time.time - _lastAutoSaveTime >= 60f)
 		{
 			_lastAutoSaveTime = Time.time;
-			ButtonHandler.SaveAutosavedStuff();
+			if (Variables.AutoSave)
+			{
+				ButtonHandler.SaveAutosavedStuff();
+			}
+			else
+			{
+				Settings.SaveSettings();
+			}
 		}
 		TickActiveMods();
 		if (Keyboard.current != null && ((ButtonControl)Keyboard.current.rightAltKey).wasPressedThisFrame)

@@ -13,7 +13,7 @@ namespace NXO.Mods;
 
 public class ModButtons
 {
-	private static ButtonHandler.Button[] _buttons = new ButtonHandler.Button[453]
+	private static ButtonHandler.Button[] _buttons = new ButtonHandler.Button[456]
 	{
 		new ButtonHandler.Button("Settings", Category.Home, isToggle: false, isActive: false, delegate
 		{
@@ -396,6 +396,27 @@ public class ModButtons
 		{
 			Settings.BigPointer(setActive: false);
 		}),
+		(Settings.leftHandGunButton = new ButtonHandler.Button("Left Hand Gun", Category.Gun_Settings, isToggle: true, isActive: false, delegate
+		{
+			Settings.LeftHandGun(setActive: true);
+		}, delegate
+		{
+			Settings.LeftHandGun(setActive: false);
+		})),
+		(Settings.griplessGunsButton = new ButtonHandler.Button("Gripless Guns", Category.Gun_Settings, isToggle: true, isActive: false, delegate
+		{
+			Settings.GriplessGuns(setActive: true);
+		}, delegate
+		{
+			Settings.GriplessGuns(setActive: false);
+		})),
+		(Settings.triggerlessGunsButton = new ButtonHandler.Button("Triggerless Guns", Category.Gun_Settings, isToggle: true, isActive: false, delegate
+		{
+			Settings.TriggerlessGuns(setActive: true);
+		}, delegate
+		{
+			Settings.TriggerlessGuns(setActive: false);
+		})),
 		new ButtonHandler.Button("Gun Line", Category.Gun_Settings, isToggle: true, isActive: true, delegate
 		{
 			Settings.GunLine(setActive: true);
