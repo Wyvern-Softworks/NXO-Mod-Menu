@@ -31,8 +31,8 @@
     </Reference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Remove="NXO.Resources.*" />
-    <EmbeddedResource Include="NXO.Resources.*" LogicalName="%(Filename)%(Extension)" />
+    <None Remove="Resources\Embedded\NXO.Resources.*" />
+    <EmbeddedResource Include="Resources\Embedded\NXO.Resources.*" LogicalName="%(Filename)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BepInEx.AssemblyPublicizer" Version="0.4.3" />

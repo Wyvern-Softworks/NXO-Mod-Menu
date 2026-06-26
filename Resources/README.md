@@ -9,6 +9,7 @@ These assets live under `Resources/` in the main repository: https://github.com/
 
 - 🎵 **Sound Effects** – Custom audio used throughout the mod menu  
 - 🖼️ **Images & Icons** – Logos, backgrounds, and UI elements  
+- 📦 **Embedded Resources** – Plugin-bundled assets under `Resources/Embedded/`
 - 📄 **Status Files** – Versioning info and mod status tracking  
 - 🔧 **Miscellaneous Assets** – Anything else needed behind the scenes  
 
