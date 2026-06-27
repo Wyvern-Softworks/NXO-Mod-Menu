@@ -16,6 +16,28 @@ public class Player
 
 	private static Vector3? cachedHeadRotation = null;
 
+	private const float CustomTeleportChargeTime = 0.75f;
+
+	private const float CustomTeleportMaxDistance = 100f;
+
+	private static GameObject _customTeleportTriangleRoot;
+
+	private static GameObject _customTeleportCrosshairRoot;
+
+	private static GameObject[] _customTeleportTriangleLines;
+
+	private static GameObject[] _customTeleportCrosshairLines;
+
+	private static Material _customTeleportMaterial;
+
+	private static float _customTeleportChargeStart;
+
+	private static bool _customTeleportHasTarget;
+
+	private static bool _customTeleportWaitingForRelease;
+
+	private static bool _customTeleportPlayedAcquireSound;
+
 	public static float sizeScale = 1f;
 
 	public static float lastSentScale = -1f;
@@ -1328,6 +1350,7 @@ public class Player
 				((GorillaTriggerBox)component).OnBoxTriggered();
 				GameObject obj2 = Variables.FindObject(tuple.Item3);
 				TeleportTo((obj2 != null) ? obj2.transform.position : ((Component)VRRig.LocalRig).transform.position);
+				return;
 			}
 		}
 		GameObject obj3 = Variables.FindObject(tuple.Item3);
@@ -1658,6 +1681,282 @@ public class Player
 			hasTeleported = false;
 			GunLib.CancelGunUse();
 		}
+	}
+
+	public static void CustomTeleport()
+	{
+		if (!TryGetCustomTeleportGesture(out Vector3 left, out Vector3 right, out Vector3 top))
+		{
+			ResetCustomTeleportCharge(resetAcquireSound: true);
+			_customTeleportWaitingForRelease = false;
+			SetCustomTeleportVisualsActive(isActive: false);
+			return;
+		}
+		EnsureCustomTeleportVisuals();
+		SetCustomTeleportVisualsActive(isActive: true);
+		SetCustomTeleportMaterialColor(Settings.GunIdleColor);
+		UpdateCustomTeleportTriangle(left, right, top);
+		if (_customTeleportWaitingForRelease)
+		{
+			SetCustomTeleportCrosshairActive(isActive: false);
+			return;
+		}
+		if (!TryGetCustomTeleportHit(out RaycastHit hit) || (UnityEngine.Object)(object)hit.collider == (UnityEngine.Object)null)
+		{
+			ResetCustomTeleportCharge(resetAcquireSound: true);
+			SetCustomTeleportCrosshairActive(isActive: false);
+			return;
+		}
+		if (!_customTeleportHasTarget)
+		{
+			_customTeleportHasTarget = true;
+			_customTeleportChargeStart = Time.time;
+			if (!_customTeleportPlayedAcquireSound)
+			{
+				PlayCustomTeleportSound(UnityEngine.Random.Range(40, 56), 0.15f);
+				_customTeleportPlayedAcquireSound = true;
+			}
+		}
+		float progress = Mathf.Clamp01((Time.time - _customTeleportChargeStart) / CustomTeleportChargeTime);
+		SetCustomTeleportMaterialColor((Color32)Color.Lerp((Color)Settings.GunIdleColor, (Color)Settings.GunFireColor, progress));
+		UpdateCustomTeleportCrosshair(hit, progress);
+		if (progress < 1f)
+		{
+			return;
+		}
+		TeleportTo(hit.point + hit.normal * 0.15f + Vector3.up * 0.75f);
+		if ((UnityEngine.Object)(object)Variables.taggerInstance != (UnityEngine.Object)null && Variables.taggerInstance.rigidbody != null)
+		{
+			Variables.taggerInstance.rigidbody.velocity = Vector3.zero;
+		}
+		PlayCustomTeleportSound(82, 0.35f);
+		_customTeleportWaitingForRelease = true;
+		ResetCustomTeleportCharge(resetAcquireSound: false);
+		SetCustomTeleportCrosshairActive(isActive: false);
+	}
+
+	public static void DisableCustomTeleport()
+	{
+		ResetCustomTeleportCharge(resetAcquireSound: true);
+		_customTeleportWaitingForRelease = false;
+		if ((UnityEngine.Object)(object)_customTeleportTriangleRoot != (UnityEngine.Object)null)
+		{
+			UnityEngine.Object.Destroy((UnityEngine.Object)(object)_customTeleportTriangleRoot);
+		}
+		if ((UnityEngine.Object)(object)_customTeleportCrosshairRoot != (UnityEngine.Object)null)
+		{
+			UnityEngine.Object.Destroy((UnityEngine.Object)(object)_customTeleportCrosshairRoot);
+		}
+		if ((UnityEngine.Object)(object)_customTeleportMaterial != (UnityEngine.Object)null)
+		{
+			UnityEngine.Object.Destroy((UnityEngine.Object)(object)_customTeleportMaterial);
+		}
+		_customTeleportTriangleRoot = null;
+		_customTeleportCrosshairRoot = null;
+		_customTeleportTriangleLines = null;
+		_customTeleportCrosshairLines = null;
+		_customTeleportMaterial = null;
+	}
+
+	private static bool TryGetCustomTeleportGesture(out Vector3 left, out Vector3 right, out Vector3 top)
+	{
+		left = Vector3.zero;
+		right = Vector3.zero;
+		top = Vector3.zero;
+		if (!InputHandler.LTrigger() || !InputHandler.RTrigger() || (UnityEngine.Object)(object)Variables.playerInstance == (UnityEngine.Object)null || (UnityEngine.Object)(object)Variables.taggerInstance == (UnityEngine.Object)null || (UnityEngine.Object)(object)Variables.taggerInstance.headCollider == (UnityEngine.Object)null)
+		{
+			return false;
+		}
+		Transform leftHand = Variables.playerInstance.LeftHand.controllerTransform;
+		Transform rightHand = Variables.playerInstance.RightHand.controllerTransform;
+		Transform head = ((Component)Variables.taggerInstance.headCollider).transform;
+		if ((UnityEngine.Object)(object)leftHand == (UnityEngine.Object)null || (UnityEngine.Object)(object)rightHand == (UnityEngine.Object)null)
+		{
+			return false;
+		}
+		left = leftHand.position;
+		right = rightHand.position;
+		float handDistance = Vector3.Distance(left, right);
+		if (handDistance < 0.12f || handDistance > 0.55f)
+		{
+			return false;
+		}
+		Vector3 midpoint = (left + right) * 0.5f;
+		Vector3 fromHead = midpoint - head.position;
+		if (fromHead.sqrMagnitude < 0.0625f || fromHead.sqrMagnitude > 1.44f || Vector3.Dot(head.forward, fromHead.normalized) < 0.35f)
+		{
+			return false;
+		}
+		Vector3 baseAxis = (right - left).normalized;
+		if (Mathf.Abs(Vector3.Dot(baseAxis, head.up)) > 0.75f)
+		{
+			return false;
+		}
+		Vector3 triangleUp = Vector3.ProjectOnPlane(head.up, fromHead.normalized);
+		if (triangleUp.sqrMagnitude < 0.001f)
+		{
+			triangleUp = Vector3.up;
+		}
+		else
+		{
+			triangleUp.Normalize();
+		}
+		top = midpoint + triangleUp * Mathf.Clamp(handDistance * 0.9f, 0.12f, 0.32f);
+		return true;
+	}
+
+	private static bool TryGetCustomTeleportHit(out RaycastHit hit)
+	{
+		Transform head = ((Component)Variables.taggerInstance.headCollider).transform;
+		return Physics.Raycast(new Ray(head.position, head.forward), out hit, CustomTeleportMaxDistance, Variables.NoInvisLayers());
+	}
+
+	private static void EnsureCustomTeleportVisuals()
+	{
+		if ((UnityEngine.Object)(object)_customTeleportMaterial == (UnityEngine.Object)null)
+		{
+			_customTeleportMaterial = new Material(Variables.guiShader);
+		}
+		if ((UnityEngine.Object)(object)_customTeleportTriangleRoot == (UnityEngine.Object)null)
+		{
+			_customTeleportTriangleRoot = new GameObject("NXO Custom Teleport Triangle");
+			_customTeleportTriangleLines = new GameObject[3];
+			for (int i = 0; i < _customTeleportTriangleLines.Length; i++)
+			{
+				_customTeleportTriangleLines[i] = CreateCustomTeleportLine("Triangle Line " + i, _customTeleportTriangleRoot.transform);
+			}
+		}
+		if ((UnityEngine.Object)(object)_customTeleportCrosshairRoot == (UnityEngine.Object)null)
+		{
+			_customTeleportCrosshairRoot = new GameObject("NXO Custom Teleport Crosshair");
+			_customTeleportCrosshairLines = new GameObject[2];
+			for (int j = 0; j < _customTeleportCrosshairLines.Length; j++)
+			{
+				_customTeleportCrosshairLines[j] = CreateCustomTeleportLine("Crosshair Line " + j, _customTeleportCrosshairRoot.transform);
+			}
+		}
+	}
+
+	private static GameObject CreateCustomTeleportLine(string name, Transform parent)
+	{
+		GameObject val = GameObject.CreatePrimitive((PrimitiveType)2);
+		((UnityEngine.Object)val).name = name;
+		val.transform.SetParent(parent);
+		Collider component = val.GetComponent<Collider>();
+		if ((UnityEngine.Object)(object)component != (UnityEngine.Object)null)
+		{
+			UnityEngine.Object.Destroy((UnityEngine.Object)(object)component);
+		}
+		Renderer component2 = val.GetComponent<Renderer>();
+		if ((UnityEngine.Object)(object)component2 != (UnityEngine.Object)null)
+		{
+			component2.sharedMaterial = _customTeleportMaterial;
+		}
+		val.SetActive(false);
+		return val;
+	}
+
+	private static void UpdateCustomTeleportTriangle(Vector3 left, Vector3 right, Vector3 top)
+	{
+		if (_customTeleportTriangleLines == null)
+		{
+			return;
+		}
+		SetCustomTeleportLine(_customTeleportTriangleLines[0], left, top, 0.01f);
+		SetCustomTeleportLine(_customTeleportTriangleLines[1], top, right, 0.01f);
+		SetCustomTeleportLine(_customTeleportTriangleLines[2], right, left, 0.01f);
+	}
+
+	private static void UpdateCustomTeleportCrosshair(RaycastHit hit, float progress)
+	{
+		if (_customTeleportCrosshairLines == null)
+		{
+			return;
+		}
+		Transform head = ((Component)Variables.taggerInstance.headCollider).transform;
+		Vector3 normal = (hit.normal.sqrMagnitude > 0.001f) ? hit.normal.normalized : Vector3.up;
+		Vector3 right = Vector3.ProjectOnPlane(head.right, normal);
+		if (right.sqrMagnitude < 0.001f)
+		{
+			right = Vector3.Cross(normal, Vector3.up);
+		}
+		if (right.sqrMagnitude < 0.001f)
+		{
+			right = Vector3.Cross(normal, Vector3.forward);
+		}
+		right.Normalize();
+		Vector3 up = Vector3.Cross(normal, right).normalized;
+		Vector3 center = hit.point + normal * 0.025f;
+		float size = Mathf.Lerp(0.1f, 0.28f, progress);
+		float width = Mathf.Lerp(0.008f, 0.015f, progress);
+		SetCustomTeleportCrosshairActive(isActive: true);
+		SetCustomTeleportLine(_customTeleportCrosshairLines[0], center - right * size, center + right * size, width);
+		SetCustomTeleportLine(_customTeleportCrosshairLines[1], center - up * size, center + up * size, width);
+	}
+
+	private static void SetCustomTeleportLine(GameObject line, Vector3 start, Vector3 end, float width)
+	{
+		if ((UnityEngine.Object)(object)line == (UnityEngine.Object)null)
+		{
+			return;
+		}
+		Vector3 delta = end - start;
+		if (delta.sqrMagnitude < 1E-06f)
+		{
+			line.SetActive(false);
+			return;
+		}
+		if (!line.activeSelf)
+		{
+			line.SetActive(true);
+		}
+		line.transform.position = start + delta * 0.5f;
+		line.transform.rotation = Quaternion.LookRotation(delta) * Quaternion.Euler(90f, 0f, 0f);
+		line.transform.localScale = new Vector3(width, delta.magnitude * 0.5f, width);
+	}
+
+	private static void SetCustomTeleportVisualsActive(bool isActive)
+	{
+		if ((UnityEngine.Object)(object)_customTeleportTriangleRoot != (UnityEngine.Object)null)
+		{
+			_customTeleportTriangleRoot.SetActive(isActive);
+		}
+		SetCustomTeleportCrosshairActive(isActive);
+	}
+
+	private static void SetCustomTeleportCrosshairActive(bool isActive)
+	{
+		if ((UnityEngine.Object)(object)_customTeleportCrosshairRoot != (UnityEngine.Object)null)
+		{
+			_customTeleportCrosshairRoot.SetActive(isActive);
+		}
+	}
+
+	private static void SetCustomTeleportMaterialColor(Color32 color)
+	{
+		if ((UnityEngine.Object)(object)_customTeleportMaterial != (UnityEngine.Object)null)
+		{
+			_customTeleportMaterial.color = color;
+		}
+	}
+
+	private static void ResetCustomTeleportCharge(bool resetAcquireSound)
+	{
+		_customTeleportHasTarget = false;
+		_customTeleportChargeStart = 0f;
+		if (resetAcquireSound)
+		{
+			_customTeleportPlayedAcquireSound = false;
+		}
+	}
+
+	private static void PlayCustomTeleportSound(int soundIndex, float volume)
+	{
+		if ((UnityEngine.Object)(object)Variables.taggerInstance == (UnityEngine.Object)null || (UnityEngine.Object)(object)Variables.taggerInstance.offlineVRRig == (UnityEngine.Object)null)
+		{
+			return;
+		}
+		Variables.taggerInstance.offlineVRRig.PlayHandTapLocal(soundIndex, false, volume);
 	}
 
 	public static void NoFingerMovement()

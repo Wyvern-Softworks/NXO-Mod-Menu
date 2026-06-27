@@ -13,7 +13,7 @@ namespace NXO.Mods;
 
 public class ModButtons
 {
-	private static ButtonHandler.Button[] _buttons = new ButtonHandler.Button[465]
+	private static ButtonHandler.Button[] _buttons = new ButtonHandler.Button[]
 	{
 		new ButtonHandler.Button("Settings", Category.Home, isToggle: false, isActive: false, delegate
 		{
@@ -388,6 +388,27 @@ public class ModButtons
 		}, delegate
 		{
 			Settings.CycleGunAnimation(forward: false);
+		})),
+		(Settings.adjustGunIdleColorButton = new ButtonHandler.Button("Gun Idle Color : " + Settings.GunIdleColorDescription, Category.Gun_Settings, isToggle: false, isActive: false, null, null, incremental: true, delegate
+		{
+			Settings.AdjustGunIdleColor(forward: true);
+		}, delegate
+		{
+			Settings.AdjustGunIdleColor(forward: false);
+		})),
+		(Settings.adjustGunFireColorButton = new ButtonHandler.Button("Gun Fire Color : " + Settings.GunFireColorDescription, Category.Gun_Settings, isToggle: false, isActive: false, null, null, incremental: true, delegate
+		{
+			Settings.AdjustGunFireColor(forward: true);
+		}, delegate
+		{
+			Settings.AdjustGunFireColor(forward: false);
+		})),
+		(Settings.adjustGunLockColorButton = new ButtonHandler.Button("Gun Lock Color : " + Settings.GunLockColorDescription, Category.Gun_Settings, isToggle: false, isActive: false, null, null, incremental: true, delegate
+		{
+			Settings.AdjustGunLockColor(forward: true);
+		}, delegate
+		{
+			Settings.AdjustGunLockColor(forward: false);
 		})),
 		new ButtonHandler.Button("Big Gun Pointer", Category.Gun_Settings, isToggle: true, isActive: false, delegate
 		{
@@ -831,6 +852,13 @@ public class ModButtons
 		}, delegate
 		{
 			GunLib.SetGunVisibility(isVisible: false);
+		}),
+		new ButtonHandler.Button("Custom Teleport (Triangle)", Category.Player, isToggle: true, isActive: false, delegate
+		{
+			Player.CustomTeleport();
+		}, delegate
+		{
+			Player.DisableCustomTeleport();
 		}),
 		new ButtonHandler.Button("Rig Gun", Category.Player, isToggle: true, isActive: false, delegate
 		{

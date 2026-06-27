@@ -7,12 +7,6 @@ namespace NXO.Utilities;
 
 public class GunLib
 {
-	private static readonly Color32 gunLock = (Color32)(Color.blue);
-
-	private static readonly Color32 gunFire = (Color32)(Color.green);
-
-	private static readonly Color32 gunIdle = (Color32)(Color.red);
-
 	public static bool BigGunPointer;
 
 	public static bool GunLineEnabled;
@@ -54,6 +48,8 @@ public class GunLib
 	public static bool GunGrips => GriplessGuns || (Mouse.current != null && Mouse.current.rightButton.isPressed) || (LeftHandGun ? InputHandler.LGrip() : InputHandler.RGrip());
 
 	public static bool GunTriggers => TriggerlessGuns || (Mouse.current != null && Mouse.current.leftButton.isPressed) || (LeftHandGun ? InputHandler.LTrigger() : InputHandler.RTrigger());
+
+	public static Color32 CurrentGunColor => ((UnityEngine.Object)(object)lockedTargetRig != (UnityEngine.Object)null) ? Settings.GunLockColor : (GunTriggers ? Settings.GunFireColor : Settings.GunIdleColor);
 
 	private static Transform GunControllerTransform => LeftHandGun ? Variables.playerInstance.LeftHand.controllerTransform : Variables.playerInstance.RightHand.controllerTransform;
 
@@ -125,7 +121,7 @@ public class GunLib
 		{
 			gunPointer.transform.localScale = (BigGunPointer ? _scaleBig : _scaleSmall);
 		}
-		Color32 val = ((UnityEngine.Object)(object)lockedTargetRig != (UnityEngine.Object)null) ? gunLock : (GunTriggers ? gunFire : gunIdle);
+		Color32 val = CurrentGunColor;
 		gunPointer.transform.position = pos;
 		gunPointerMaterial.color = (Color32)(val);
 		if (!GunLineEnabled)

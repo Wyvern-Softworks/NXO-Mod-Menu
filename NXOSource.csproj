@@ -18,11 +18,11 @@
     <GorillaTagBepInExCoreDir>$(GorillaTagDir)BepInEx\core\</GorillaTagBepInExCoreDir>
     <ManagedPublicizedDir>$(MSBuildThisFileDirectory)References.Publicized.Managed\</ManagedPublicizedDir>
     <NuGetPackageRoot Condition="'$(NuGetPackageRoot)' == ''">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
-    <AssemblyPublicizerDll>$(NuGetPackageRoot)bepinex.assemblypublicizer\0.4.3\lib\netstandard2.0\BepInEx.AssemblyPublicizer.dll</AssemblyPublicizerDll>
-    <AsmResolverDll>$(NuGetPackageRoot)asmresolver\5.5.1\lib\netstandard2.1\AsmResolver.dll</AsmResolverDll>
-    <AsmResolverDotNetDll>$(NuGetPackageRoot)asmresolver.dotnet\5.5.1\lib\netstandard2.1\AsmResolver.DotNet.dll</AsmResolverDotNetDll>
-    <AsmResolverPeDll>$(NuGetPackageRoot)asmresolver.pe\5.5.1\lib\netstandard2.1\AsmResolver.PE.dll</AsmResolverPeDll>
-    <AsmResolverPeFileDll>$(NuGetPackageRoot)asmresolver.pe.file\5.5.1\lib\netstandard2.1\AsmResolver.PE.File.dll</AsmResolverPeFileDll>
+    <AssemblyPublicizerDll>$(NuGetPackageRoot)bepinex.assemblypublicizer\0.4.1\lib\netstandard2.0\BepInEx.AssemblyPublicizer.dll</AssemblyPublicizerDll>
+    <AsmResolverDll>$(NuGetPackageRoot)asmresolver\5.0.0\lib\netstandard2.0\AsmResolver.dll</AsmResolverDll>
+    <AsmResolverDotNetDll>$(NuGetPackageRoot)asmresolver.dotnet\5.0.0\lib\netstandard2.0\AsmResolver.DotNet.dll</AsmResolverDotNetDll>
+    <AsmResolverPeDll>$(NuGetPackageRoot)asmresolver.pe\5.0.0\lib\netstandard2.0\AsmResolver.PE.dll</AsmResolverPeDll>
+    <AsmResolverPeFileDll>$(NuGetPackageRoot)asmresolver.pe.file\5.0.0\lib\netstandard2.0\AsmResolver.PE.File.dll</AsmResolverPeFileDll>
 
   </PropertyGroup>
   <ItemDefinitionGroup>
@@ -35,7 +35,7 @@
     <EmbeddedResource Include="Resources\Embedded\NXO.Resources.*" LogicalName="%(Filename)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="BepInEx.AssemblyPublicizer" Version="0.4.3" />
+    <PackageReference Include="BepInEx.AssemblyPublicizer" Version="0.4.1" />
   </ItemGroup>
   <ItemGroup>
     <GorillaTagPublicizedReference Include="Assembly-CSharp;PhotonUnityNetworking;Newtonsoft.Json;Oculus.VR;SteamVR;SteamVR_Actions" />
@@ -514,14 +514,13 @@
     <ParameterGroup>
       <InputAssembly ParameterType="System.String" Required="true" />
       <OutputAssembly ParameterType="System.String" Required="true" />
+      <AssemblyPublicizerAssembly ParameterType="System.String" Required="true" />
+      <AsmResolverAssembly ParameterType="System.String" Required="true" />
+      <AsmResolverDotNetAssembly ParameterType="System.String" Required="true" />
+      <AsmResolverPeAssembly ParameterType="System.String" Required="true" />
+      <AsmResolverPeFileAssembly ParameterType="System.String" Required="true" />
     </ParameterGroup>
     <Task>
-      <Reference Include="$(AssemblyPublicizerDll)" />
-      <Reference Include="$(AsmResolverDll)" />
-      <Reference Include="$(AsmResolverDotNetDll)" />
-      <Reference Include="$(AsmResolverPeDll)" />
-      <Reference Include="$(AsmResolverPeFileDll)" />
-      <Using Namespace="BepInEx.AssemblyPublicizer" />
       <Code Type="Fragment" Language="cs"><![CDATA[
 var outputDirectory = System.IO.Path.GetDirectoryName(OutputAssembly);
 if (!string.IsNullOrEmpty(outputDirectory))
@@ -529,16 +528,49 @@ if (!string.IsNullOrEmpty(outputDirectory))
     System.IO.Directory.CreateDirectory(outputDirectory);
 }
 
-var options = new AssemblyPublicizerOptions
+var assemblyMap = new System.Collections.Generic.Dictionary<string, string>(System.StringComparer.OrdinalIgnoreCase);
+foreach (var path in new[] { AsmResolverAssembly, AsmResolverPeAssembly, AsmResolverPeFileAssembly, AsmResolverDotNetAssembly, AssemblyPublicizerAssembly })
 {
-    Target = PublicizeTarget.All,
-    PublicizeCompilerGenerated = true,
-    IncludeOriginalAttributesAttribute = true,
-    Strip = false
+    var assemblyName = System.Reflection.AssemblyName.GetAssemblyName(path).Name;
+    assemblyMap[assemblyName] = path;
+}
+
+System.ResolveEventHandler resolve = (sender, args) =>
+{
+    var name = new System.Reflection.AssemblyName(args.Name).Name;
+    if (assemblyMap.TryGetValue(name, out var path))
+    {
+        return System.Reflection.Assembly.LoadFrom(path);
+    }
+    return null;
 };
 
-AssemblyPublicizer.Publicize(InputAssembly, OutputAssembly, options);
-return true;
+System.AppDomain.CurrentDomain.AssemblyResolve += resolve;
+try
+{
+    foreach (var path in assemblyMap.Values)
+    {
+        System.Reflection.Assembly.LoadFrom(path);
+    }
+
+    var publicizerAssembly = System.Reflection.Assembly.LoadFrom(AssemblyPublicizerAssembly);
+    var optionsType = publicizerAssembly.GetType("BepInEx.AssemblyPublicizer.AssemblyPublicizerOptions", true);
+    var targetType = publicizerAssembly.GetType("BepInEx.AssemblyPublicizer.PublicizeTarget", true);
+    var options = System.Activator.CreateInstance(optionsType);
+    optionsType.GetProperty("Target").SetValue(options, System.Enum.Parse(targetType, "All"));
+    optionsType.GetProperty("PublicizeCompilerGenerated").SetValue(options, true);
+    optionsType.GetProperty("IncludeOriginalAttributesAttribute").SetValue(options, true);
+    optionsType.GetProperty("Strip").SetValue(options, false);
+
+    var publicizerType = publicizerAssembly.GetType("BepInEx.AssemblyPublicizer.AssemblyPublicizer", true);
+    var publicize = publicizerType.GetMethod("Publicize", new[] { typeof(string), typeof(string), optionsType });
+    publicize.Invoke(null, new object[] { InputAssembly, OutputAssembly, options });
+    return true;
+}
+finally
+{
+    System.AppDomain.CurrentDomain.AssemblyResolve -= resolve;
+}
       ]]></Code>
     </Task>
   </UsingTask>
@@ -548,6 +580,6 @@ return true;
     <Error Condition="!Exists('$(AsmResolverDll)') Or !Exists('$(AsmResolverDotNetDll)') Or !Exists('$(AsmResolverPeDll)') Or !Exists('$(AsmResolverPeFileDll)')" Text="AsmResolver dependencies were not restored. Run dotnet restore." />
     <Error Condition="!Exists('$(GorillaTagManagedDir)%(GorillaTagPublicizedReference.Identity).dll')" Text="Gorilla Tag reference was not found: $(GorillaTagManagedDir)%(GorillaTagPublicizedReference.Identity).dll" />
     <MakeDir Directories="$(ManagedPublicizedDir)" />
-    <PublicizeAssembly InputAssembly="$(GorillaTagManagedDir)%(GorillaTagPublicizedReference.Identity).dll" OutputAssembly="$(ManagedPublicizedDir)%(GorillaTagPublicizedReference.Identity).dll" />
+    <PublicizeAssembly InputAssembly="$(GorillaTagManagedDir)%(GorillaTagPublicizedReference.Identity).dll" OutputAssembly="$(ManagedPublicizedDir)%(GorillaTagPublicizedReference.Identity).dll" AssemblyPublicizerAssembly="$(AssemblyPublicizerDll)" AsmResolverAssembly="$(AsmResolverDll)" AsmResolverDotNetAssembly="$(AsmResolverDotNetDll)" AsmResolverPeAssembly="$(AsmResolverPeDll)" AsmResolverPeFileAssembly="$(AsmResolverPeFileDll)" />
   </Target>
 </Project>

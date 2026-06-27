@@ -660,6 +660,30 @@ public class Settings
 
 	public static string GunAnimationType = "None";
 
+	public static ButtonHandler.Button adjustGunIdleColorButton;
+
+	public static ButtonHandler.Button adjustGunFireColorButton;
+
+	public static ButtonHandler.Button adjustGunLockColorButton;
+
+	private static int gunIdleColorIndex = 8;
+
+	private static int gunFireColorIndex = 33;
+
+	private static int gunLockColorIndex = 50;
+
+	public static Color32 GunIdleColor = new Color32(byte.MaxValue, (byte)0, (byte)0, byte.MaxValue);
+
+	public static Color32 GunFireColor = new Color32((byte)0, byte.MaxValue, (byte)0, byte.MaxValue);
+
+	public static Color32 GunLockColor = new Color32((byte)0, (byte)0, byte.MaxValue, byte.MaxValue);
+
+	public static string GunIdleColorDescription = "Red";
+
+	public static string GunFireColorDescription = "Green";
+
+	public static string GunLockColorDescription = "Blue";
+
 	public static ButtonHandler.Button adjustOpacityButton;
 
 	private static readonly (float value, string desc)[] OpacityOptions = new(float, string)[5]
@@ -750,6 +774,21 @@ public class Settings
 			GunAnimationType = GunAnimations[gunAnimationIndex];
 			cycleGunAnimationButton?.SetText("Gun Animation : " + GunAnimationType);
 		}
+	}
+
+	public static void AdjustGunIdleColor(bool forward)
+	{
+		CycleColor(ref gunIdleColorIndex, ref GunIdleColor, ref GunIdleColorDescription, adjustGunIdleColorButton, "Gun Idle Color", forward);
+	}
+
+	public static void AdjustGunFireColor(bool forward)
+	{
+		CycleColor(ref gunFireColorIndex, ref GunFireColor, ref GunFireColorDescription, adjustGunFireColorButton, "Gun Fire Color", forward);
+	}
+
+	public static void AdjustGunLockColor(bool forward)
+	{
+		CycleColor(ref gunLockColorIndex, ref GunLockColor, ref GunLockColorDescription, adjustGunLockColorButton, "Gun Lock Color", forward);
 	}
 
 	public static Color GetAnimatedColor(ColorMode mode, Color c1, Color c2, float speed = 1f, int seed = 0)
@@ -1514,7 +1553,7 @@ public class Settings
 
 	private static string[] BuildSettingsLines()
 	{
-		return new string[57]
+		return new string[60]
 		{
 			"Pinwheel Speed : " + PinwheelSpeedDescription,
 			"Tracer Position : " + TracerPosition,
@@ -1533,6 +1572,9 @@ public class Settings
 			"Lag Type : " + LagTypeDescription,
 			"Nametag Type : " + NametagType,
 			"Gun Animation : " + GunAnimationType,
+			"Gun Idle Color : " + GunIdleColorDescription,
+			"Gun Fire Color : " + GunFireColorDescription,
+			"Gun Lock Color : " + GunLockColorDescription,
 			"Left Hand Gun : " + (GunLib.LeftHandGun ? "On" : "Off"),
 			"Gripless Guns : " + (GunLib.GriplessGuns ? "On" : "Off"),
 			"Triggerless Guns : " + (GunLib.TriggerlessGuns ? "On" : "Off"),
@@ -2162,6 +2204,42 @@ public class Settings
 				cycleGunAnimationButton?.SetText("Gun Animation : " + GunAnimationType);
 			}
 			break;
+		case "Gun Idle Color":
+		{
+			int num49 = ColorIndexByName(value);
+			if (num49 >= 0)
+			{
+				gunIdleColorIndex = num49;
+				GunIdleColor = CustomColors[num49];
+				GunIdleColorDescription = CustomColorNames[num49];
+				adjustGunIdleColorButton?.SetText("Gun Idle Color : " + GunIdleColorDescription);
+			}
+			break;
+		}
+		case "Gun Fire Color":
+		{
+			int num50 = ColorIndexByName(value);
+			if (num50 >= 0)
+			{
+				gunFireColorIndex = num50;
+				GunFireColor = CustomColors[num50];
+				GunFireColorDescription = CustomColorNames[num50];
+				adjustGunFireColorButton?.SetText("Gun Fire Color : " + GunFireColorDescription);
+			}
+			break;
+		}
+		case "Gun Lock Color":
+		{
+			int num51 = ColorIndexByName(value);
+			if (num51 >= 0)
+			{
+				gunLockColorIndex = num51;
+				GunLockColor = CustomColors[num51];
+				GunLockColorDescription = CustomColorNames[num51];
+				adjustGunLockColorButton?.SetText("Gun Lock Color : " + GunLockColorDescription);
+			}
+			break;
+		}
 		case "Left Hand Gun":
 			GunLib.LeftHandGun = IsOnValue(value);
 			if (leftHandGunButton != null)
