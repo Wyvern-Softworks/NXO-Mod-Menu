@@ -189,6 +189,16 @@ public class Main : MonoBehaviour
 
 	public static GameObject disconnectButton;
 
+	private static GameObject _disconnectButtonBackground;
+
+	private static List<GameObject> _disconnectButtonRoundedParts;
+
+	private static bool? _disconnectButtonWasInRoom;
+
+	private static readonly Color32 DisconnectButtonColor = new Color32(byte.MaxValue, (byte)55, (byte)55, byte.MaxValue);
+
+	private static readonly Color32 JoinRandomButtonColor = new Color32((byte)55, (byte)220, (byte)85, byte.MaxValue);
+
 	public static Color pinwheelColor1 = (Color32)(new Color32((byte)0, (byte)100, byte.MaxValue, byte.MaxValue));
 
 	public static Color pinwheelColor2 = (Color32)(new Color32((byte)230, (byte)230, (byte)230, byte.MaxValue));
@@ -1854,19 +1864,20 @@ public class Main : MonoBehaviour
 	public static void AddDisconnectButton()
 	{
 		GameObject val = CreateCube("DisconnectBg", null, keepCollider: true);
+		_disconnectButtonBackground = val;
 		val.transform.localScale = new Vector3(0.0075f, HeaderIconScale.x * 2.504f, HeaderIconScale.x * 1.6f);
 		val.transform.localPosition = new Vector3(0.07525f, -0.2375f, 0.45f);
 		val.AddComponent<ButtonHandler.BtnCollider>().clickedButton = new ButtonHandler.Button("Disconnect Button", Category.Home, isToggle: false, isActive: false, delegate
 		{
-			Room.Disconnect();
+			HandleDisconnectJoinButton();
 		});
-		ApplyColor(val, (Color32)(Settings.ButtonColor));
+		ApplyColor(val, CurrentDisconnectJoinButtonColor());
 		ApplyOutline(val, 2, 0.0065f);
 		List<GameObject> extraParts = null;
 		if (Settings.MenuRoundness > 0f)
 		{
 			extraParts = RoundObj(val, null, null, Settings.MenuRoundness);
-			RegisterColorGroup(ColorRole.Button, val, extraParts);
+			_disconnectButtonRoundedParts = extraParts;
 			disconnectButton = CreateQuad();
 			disconnectButton.transform.localRotation = Quaternion.Euler(0f, 90f, 0f);
 			disconnectButton.transform.localScale = HeaderIconScale;
@@ -1875,12 +1886,70 @@ public class Main : MonoBehaviour
 		}
 		else
 		{
-			RegisterColorGroup(ColorRole.Button, val, extraParts);
+			_disconnectButtonRoundedParts = null;
 			disconnectButton = CreateQuad();
 			disconnectButton.transform.localRotation = Quaternion.Euler(0f, 90f, 0f);
 			disconnectButton.transform.localScale = HeaderIconScale;
 			disconnectButton.transform.localPosition = new Vector3(0.079535715f, -0.2375f, 0.45f);
 			ApplyTexture(disconnectButton, "NXO.Resources.disconnecticon.png", Color.white);
+		}
+		_disconnectButtonWasInRoom = null;
+		UpdateDisconnectJoinButton(force: true);
+	}
+
+	private static void HandleDisconnectJoinButton()
+	{
+		if (PhotonNetwork.InRoom)
+		{
+			Room.Disconnect();
+		}
+		else
+		{
+			Room.JoinRandomPublic();
+		}
+		UpdateDisconnectJoinButton(force: true);
+	}
+
+	private static Color32 CurrentDisconnectJoinButtonColor()
+	{
+		return PhotonNetwork.InRoom ? DisconnectButtonColor : JoinRandomButtonColor;
+	}
+
+	private static void UpdateDisconnectJoinButton(bool force = false)
+	{
+		if ((UnityEngine.Object)(object)_disconnectButtonBackground == (UnityEngine.Object)null)
+		{
+			return;
+		}
+		bool inRoom = PhotonNetwork.InRoom;
+		if (!force && _disconnectButtonWasInRoom.HasValue && _disconnectButtonWasInRoom.Value == inRoom)
+		{
+			return;
+		}
+		_disconnectButtonWasInRoom = inRoom;
+		Color32 color = CurrentDisconnectJoinButtonColor();
+		SetRendererColor(_disconnectButtonBackground, color);
+		if (_disconnectButtonRoundedParts != null)
+		{
+			for (int i = 0; i < _disconnectButtonRoundedParts.Count; i++)
+			{
+				SetRendererColor(_disconnectButtonRoundedParts[i], color);
+			}
+		}
+	}
+
+	private static void SetRendererColor(GameObject obj, Color color)
+	{
+		if ((UnityEngine.Object)(object)obj == (UnityEngine.Object)null)
+		{
+			return;
+		}
+		Renderer component = obj.GetComponent<Renderer>();
+		if ((UnityEngine.Object)(object)component != (UnityEngine.Object)null && (UnityEngine.Object)(object)component.sharedMaterial != (UnityEngine.Object)null)
+		{
+			Color val = color;
+			val.a = component.sharedMaterial.color.a;
+			component.sharedMaterial.color = val;
 		}
 	}
 
@@ -1933,6 +2002,7 @@ public class Main : MonoBehaviour
 		HandlePlayerActionCamera();
 		HandlePcMenuState();
 		HandleVrMenuState();
+		UpdateDisconnectJoinButton();
 		SearchAndKeyboard.HandleKeyboardInput();
 		UpdateAnimatedColors();
 		SearchAndKeyboard.UpdateSearchBlink();
@@ -2255,6 +2325,9 @@ public class Main : MonoBehaviour
 		Variables.TopMenuButton = null;
 		Variables.searchButton = null;
 		disconnectButton = null;
+		_disconnectButtonBackground = null;
+		_disconnectButtonRoundedParts = null;
+		_disconnectButtonWasInRoom = null;
 		Variables.canvasObj = null;
 		Variables.BackToStartButton = null;
 		Variables.title = null;
