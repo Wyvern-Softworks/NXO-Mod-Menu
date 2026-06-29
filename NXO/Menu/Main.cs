@@ -1397,7 +1397,7 @@ public class Main : MonoBehaviour
 
 	private static void HandleVrMenuState()
 	{
-		Variables.openMenu = Variables.rightHandedMenu ? InputHandler.RSecondary() : InputHandler.LSecondary();
+		Variables.openMenu = Settings.MenuOpenButtonPressed();
 		bool shouldOpenMenu = Variables.openMenu || SearchAndKeyboard.isSearching;
 		if (shouldOpenMenu && !Variables.InPcCondition && !_wasInMenuCondition)
 		{

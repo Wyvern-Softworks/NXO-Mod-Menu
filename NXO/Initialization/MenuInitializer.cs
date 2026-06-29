@@ -23,6 +23,7 @@ internal class MenuInitializer
 			obj.AddComponent<UpdateChecker>();
 			obj.AddComponent<NXOUI>();
 			obj.AddComponent<CustomBoards>();
+			obj.AddComponent<NXO.Mods.Categories.QoL>();
 			obj.AddComponent<NetworkingLibrary>();
 			UnityEngine.Object.DontDestroyOnLoad((UnityEngine.Object)(object)obj);
 			UnityEngine.Debug.Log((object)"NXO initialized.");

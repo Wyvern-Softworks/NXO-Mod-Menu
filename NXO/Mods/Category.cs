@@ -19,6 +19,7 @@ public enum Category
 	Movement,
 	Gamemode,
 	Visuals,
+	Utilities,
 	Audio,
 	Fun,
 	Projectiles,

@@ -86,6 +86,13 @@ public class ModButtons
 		{
 			isCategory = true
 		},
+		new ButtonHandler.Button("Utilities / QoL", Category.Home, isToggle: false, isActive: false, delegate
+		{
+			ButtonHandler.ChangePage(Category.Utilities);
+		})
+		{
+			isCategory = true
+		},
 		new ButtonHandler.Button("Audio", Category.Home, isToggle: false, isActive: false, delegate
 		{
 			ButtonHandler.ChangePage(Category.Audio);
@@ -168,13 +175,13 @@ public class ModButtons
 		{
 			isCategory = true
 		},
-		new ButtonHandler.Button("Right Hand Menu", Category.Menu_Settings, isToggle: true, isActive: false, delegate
+		(Settings.rightHandMenuButton = new ButtonHandler.Button("Right Hand Menu", Category.Menu_Settings, isToggle: true, isActive: false, delegate
 		{
 			Settings.SwitchHands(setActive: true);
 		}, delegate
 		{
 			Settings.SwitchHands(setActive: false);
-		}),
+		})),
 		new ButtonHandler.Button("Mods Array List", Category.Menu_Settings, isToggle: true, isActive: false, delegate
 		{
 			Settings.ToggleArrayList(setActive: true);
@@ -621,6 +628,69 @@ public class ModButtons
 		{
 			((PhotonNetworkController)PhotonNetworkController.Instance).disableAFKKick = false;
 		}),
+		new ButtonHandler.Button("Return", Category.Utilities, isToggle: false, isActive: false, delegate
+		{
+			ButtonHandler.ChangePage(Category.Home);
+		})
+		{
+			isCategory = true
+		},
+		new ButtonHandler.Button("Stats Overlay", Category.Utilities, isToggle: true, isActive: false, delegate
+		{
+			QoL.SetStatsOverlay(enabled: true);
+		}, delegate
+		{
+			QoL.SetStatsOverlay(enabled: false);
+		}),
+		new ButtonHandler.Button("Stats Show FPS", Category.Utilities, isToggle: true, isActive: true, delegate
+		{
+			QoL.SetShowFps(enabled: true);
+		}, delegate
+		{
+			QoL.SetShowFps(enabled: false);
+		}),
+		new ButtonHandler.Button("Stats Show Ping", Category.Utilities, isToggle: true, isActive: true, delegate
+		{
+			QoL.SetShowPing(enabled: true);
+		}, delegate
+		{
+			QoL.SetShowPing(enabled: false);
+		}),
+		new ButtonHandler.Button("Stats Show Room", Category.Utilities, isToggle: true, isActive: true, delegate
+		{
+			QoL.SetShowRoom(enabled: true);
+		}, delegate
+		{
+			QoL.SetShowRoom(enabled: false);
+		}),
+		new ButtonHandler.Button("Left Wrist Stats Watch", Category.Utilities, isToggle: true, isActive: false, delegate
+		{
+			QoL.SetWristWatch(enabled: true);
+		}, delegate
+		{
+			QoL.SetWristWatch(enabled: false);
+		}),
+		new ButtonHandler.Button("FPS Boost", Category.Utilities, isToggle: true, isActive: false, delegate
+		{
+			QoL.SetPerformanceBoost(enabled: true);
+		}, delegate
+		{
+			QoL.SetPerformanceBoost(enabled: false);
+		}),
+		new ButtonHandler.Button("Uncap FPS", Category.Utilities, isToggle: true, isActive: false, delegate
+		{
+			QoL.SetUncapFps(enabled: true);
+		}, delegate
+		{
+			QoL.SetUncapFps(enabled: false);
+		}),
+		(Settings.cycleMenuOpenInputButton = new ButtonHandler.Button("Menu Open Button : " + Settings.MenuOpenInputDescription, Category.Utilities, isToggle: false, isActive: false, null, null, incremental: true, delegate
+		{
+			Settings.CycleMenuOpenInput(forward: true);
+		}, delegate
+		{
+			Settings.CycleMenuOpenInput(forward: false);
+		})),
 		new ButtonHandler.Button("US Servers", Category.Room, isToggle: false, isActive: false, delegate
 		{
 			PhotonNetwork.ConnectToRegion("us");

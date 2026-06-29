@@ -612,6 +612,23 @@ public class Settings
 
 	public static ButtonHandler.Button CycleMenuFontButton;
 
+	public static ButtonHandler.Button rightHandMenuButton;
+
+	public static ButtonHandler.Button cycleMenuOpenInputButton;
+
+	private static readonly (string desc, ControllerInput left, ControllerInput right)[] MenuOpenInputs = new(string, ControllerInput, ControllerInput)[5]
+	{
+		("Secondary", InputHandler.LSecondary, InputHandler.RSecondary),
+		("Primary", InputHandler.LPrimary, InputHandler.RPrimary),
+		("Grip", InputHandler.LGrip, InputHandler.RGrip),
+		("Trigger", InputHandler.LTrigger, InputHandler.RTrigger),
+		("Joystick", InputHandler.LJoystickClick, InputHandler.RJoystickClick)
+	};
+
+	private static int menuOpenInputIndex = 0;
+
+	public static string MenuOpenInputDescription = "Secondary";
+
 	public static ButtonHandler.Button adjustLagTypeButton;
 
 	private static readonly (int packets, float cooldown, string desc)[] LagTypeOptions = new(int, float, string)[4]
@@ -774,6 +791,19 @@ public class Settings
 			GunAnimationType = GunAnimations[gunAnimationIndex];
 			cycleGunAnimationButton?.SetText("Gun Animation : " + GunAnimationType);
 		}
+	}
+
+	public static void CycleMenuOpenInput(bool forward)
+	{
+		menuOpenInputIndex = forward ? ((menuOpenInputIndex + 1) % MenuOpenInputs.Length) : ((menuOpenInputIndex - 1 + MenuOpenInputs.Length) % MenuOpenInputs.Length);
+		MenuOpenInputDescription = MenuOpenInputs[menuOpenInputIndex].desc;
+		cycleMenuOpenInputButton?.SetText("Menu Open Button : " + MenuOpenInputDescription);
+	}
+
+	public static bool MenuOpenButtonPressed()
+	{
+		ControllerInput input = Variables.rightHandedMenu ? MenuOpenInputs[menuOpenInputIndex].right : MenuOpenInputs[menuOpenInputIndex].left;
+		return input != null && input();
 	}
 
 	public static void AdjustGunIdleColor(bool forward)
@@ -1553,7 +1583,7 @@ public class Settings
 
 	private static string[] BuildSettingsLines()
 	{
-		return new string[60]
+		return new string[62]
 		{
 			"Pinwheel Speed : " + PinwheelSpeedDescription,
 			"Tracer Position : " + TracerPosition,
@@ -1564,6 +1594,8 @@ public class Settings
 			"Long Arms Length : " + ArmLengthDescription,
 			"Platform Type : " + PlatformType,
 			"Sound Input : " + inputName,
+			"Right Hand Menu : " + (Variables.rightHandedMenu ? "On" : "Off"),
+			"Menu Open Button : " + MenuOpenInputDescription,
 			"Anti Report Radius : " + AntiReportRadiusDescription,
 			"Projectile Speed : " + ProjectileSpeedDescription,
 			"Projectile Size : " + ProjectileSizeDescription,
@@ -2048,6 +2080,27 @@ public class Settings
 				num19++;
 			}
 			while (num19 < controllerInputs.Length);
+			break;
+		}
+		case "Right Hand Menu":
+			Variables.rightHandedMenu = IsOnValue(value);
+			if (rightHandMenuButton != null)
+			{
+				rightHandMenuButton.Enabled = Variables.rightHandedMenu;
+			}
+			break;
+		case "Menu Open Button":
+		{
+			for (int i = 0; i < MenuOpenInputs.Length; i++)
+			{
+				if (MenuOpenInputs[i].desc == value)
+				{
+					menuOpenInputIndex = i;
+					MenuOpenInputDescription = MenuOpenInputs[i].desc;
+					cycleMenuOpenInputButton?.SetText("Menu Open Button : " + MenuOpenInputDescription);
+					break;
+				}
+			}
 			break;
 		}
 		case "Anti Report Radius":
